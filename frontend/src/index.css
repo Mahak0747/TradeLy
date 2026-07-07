@@ -12,29 +12,35 @@ code {
     monospace;
 }
 
-.nav-link{
+.nav-link {
   margin-left: 40px;
 }
 
-#supportHero{
+#supportHero {
   background-color: rgb(56, 126, 209);
   color: white;
 }
 
-#supportHero a{
+#supportHero a {
   color: white;
 }
 
-#supportWrapper{
+#supportWrapper {
   display: flex;
   justify-content: space-between;
   margin: 0 150px;
 }
 
-#supportHero input{
-  padding: 20px 50px;
+#supportWrapper2 {
+  display: flex;
+  margin: -44px 132px;
+  gap: 100px;
+}
+
+#supportHero input {
+  padding: 20px 20px;
   width: 100%;
-  font-size: 20px;
-  border-radius: 10px;
+  font-size: 16px;
+  border-radius: 5px;
   border: none;
 }

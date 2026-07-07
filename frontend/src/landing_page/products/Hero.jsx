@@ -1,6 +1,6 @@
 import React from 'react';
 function Hero() {
-    return ( 
+    return (
         <div className='container border-bottom mb-5'>
             <div className='text-center mt-5 p-3'>
                 <h1>Technology</h1>
@@ -11,7 +11,7 @@ function Hero() {
                 </a></p>
             </div>
         </div>
-     );
+    );
 }
 
 export default Hero;
