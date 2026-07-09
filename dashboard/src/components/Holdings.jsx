@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { VerticalGraph } from "./VerticalGraph";
+import api from "../api";
 
 
 const Holdings = () => {
@@ -11,32 +11,18 @@ const Holdings = () => {
 
 
     useEffect(() => {
+  const fetchHoldings = async () => {
+    try {
+      const res = await api.get("/allHoldings");
+      console.log("HOLDINGS DATA", res.data);
+      setAllHoldings(res.data);
+    } catch (err) {
+      console.log("Holding API Error", err);
+    }
+  };
 
-
-        axios
-            .get("http://localhost:3002/allHoldings")
-            .then((res) => {
-
-
-                console.log("HOLDINGS DATA", res.data);
-
-                setAllHoldings(res.data);
-
-
-            })
-            .catch((err) => {
-
-
-                console.log(
-                    "Holding API Error",
-                    err
-                );
-
-
-            });
-
-
-    }, []);
+  fetchHoldings();
+}, []);
 
 
 
@@ -185,11 +171,9 @@ const Holdings = () => {
 
 
                                 const dayClass =
-                                    stock.day === "UP"
-                                        ?
-                                        "profit"
-                                        :
-                                        "loss";
+    stock.day.startsWith("-")
+        ? "loss"
+        : "profit";
 
 
 

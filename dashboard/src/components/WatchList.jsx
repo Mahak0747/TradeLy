@@ -24,48 +24,30 @@ const WatchList = () => {
 
 
   useEffect(() => {
+  const fetchWatchlist = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3002/api/stocks/watchlist"
+      );
 
+      console.log("LIVE STOCK DATA", response.data);
 
-    const fetchWatchlist = async () => {
+      setWatchlist(response.data);
+    } catch (err) {
+      console.log("Watchlist API error:", err.message);
+    }
+  };
 
+  // Fetch immediately when component mounts
+  fetchWatchlist();
 
-      try {
+  // Refresh every 15 seconds
+  const interval = setInterval(fetchWatchlist, 15000);
 
+  // Cleanup on unmount
+  return () => clearInterval(interval);
 
-        const response = await axios.get(
-          "http://localhost:3002/api/stocks/watchlist"
-        );
-
-
-        console.log(
-          "LIVE STOCK DATA",
-          response.data
-        );
-
-
-        setWatchlist(response.data);
-
-
-
-      } catch (err) {
-
-
-        console.log(
-          "Watchlist API error:",
-          err.message
-        );
-
-
-      }
-
-
-    };
-
-
-    fetchWatchlist();
-
-
-  }, []);
+}, []);
 
 
 
@@ -327,136 +309,69 @@ const WatchListItem = ({ stock }) => {
 
 
 const WatchListActions = ({ stock }) => {
-
-
-  const generalContext = useContext(
-    GeneralContext
-  );
-
-
+  const generalContext = useContext(GeneralContext);
 
   const handleBuyClick = () => {
-
-
     generalContext.openBuyWindow(stock);
-
-
   };
 
-
+  const handleSellClick = () => {
+    generalContext.openSellWindow(stock);
+  };
 
   return (
-
     <span className="actions">
-
-
       <span>
-
-
         <Tooltip
-
           title="Buy (B)"
-
           placement="top"
-
           arrow
-
           TransitionComponent={Grow}
-
-          onClick={handleBuyClick}
-
         >
-
-          <button className="buy">
-
+          <button
+            className="buy"
+            onClick={handleBuyClick}
+          >
             Buy
-
           </button>
-
-
         </Tooltip>
 
-
-
-
         <Tooltip
-
           title="Sell (S)"
-
           placement="top"
-
           arrow
-
           TransitionComponent={Grow}
-
         >
-
-          <button className="sell">
-
+          <button
+            className="sell"
+            onClick={handleSellClick}
+          >
             Sell
-
           </button>
-
-
         </Tooltip>
 
-
-
-
-
         <Tooltip
-
-          title="Analytics (A)"
-
+          title="Analytics"
           placement="top"
-
           arrow
-
           TransitionComponent={Grow}
-
         >
-
           <button className="action">
-
             <BarChartOutlined className="icon" />
-
           </button>
-
-
         </Tooltip>
-
-
-
-
 
         <Tooltip
-
           title="More"
-
           placement="top"
-
           arrow
-
           TransitionComponent={Grow}
-
         >
-
           <button className="action">
-
             <MoreHoriz className="icon" />
-
           </button>
-
-
         </Tooltip>
-
-
-
       </span>
-
-
     </span>
-
   );
-
 };

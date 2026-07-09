@@ -1,18 +1,19 @@
 const mongoose = require("mongoose");
-const { Schema } = require("mongoose");
-
+const { Schema } = mongoose;
 
 const UsersSchema = new Schema({
-
     username: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
 
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        lowercase: true,
+        trim: true
     },
 
     password: {
@@ -24,8 +25,6 @@ const UsersSchema = new Schema({
         type: Date,
         default: Date.now
     }
-
 });
-
 
 module.exports = { UsersSchema };

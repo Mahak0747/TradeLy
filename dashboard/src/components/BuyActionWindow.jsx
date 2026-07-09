@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+
+import api from "../api";
 
 import GeneralContext from "./GeneralContext";
 
@@ -24,57 +25,36 @@ const BuyActionWindow = ({ stock }) => {
 
 
     const handleBuyClick = async () => {
+  try {
+    if (stockQuantity <= 0) {
+    return alert("Quantity must be greater than 0");
+}
 
+if (stockPrice <= 0) {
+    return alert("Price must be greater than 0");
+}
+    await api.post("/newOrder", {
+      name: stock.name,
+      qty: Number(stockQuantity),
+      price: Number(stockPrice),
+      mode: "BUY",
+    });
 
-        try {
+    alert("Stock Bought Successfully");
 
+    generalContext.closeBuyWindow();
 
-            await axios.post(
+    window.location.reload();
+  } catch (err) {
+    console.log("BUY ERROR", err.response?.data || err.message);
 
-                "http://localhost:3002/newOrder",
-
-                {
-
-                    name: stock.name,
-
-                    qty: Number(stockQuantity),
-
-                    price: Number(stockPrice),
-
-                    mode: "BUY"
-
-                }
-
-            );
-
-
-
-            alert("Stock Bought Successfully");
-
-
-            generalContext.closeBuyWindow();
-
-
-
-        }
-
-        catch (err) {
-
-
-            console.log(
-
-                "BUY ERROR",
-
-                err.response?.data || err.message
-
-            );
-
-
-        }
-
-
-
-    };
+    alert(
+      err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Unable to Buy Stock"
+    );
+  }
+};
 
 
 
