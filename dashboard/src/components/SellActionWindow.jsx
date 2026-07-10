@@ -6,13 +6,10 @@ import "./BuyActionWindow.css";
 
 const SellActionWindow = ({ stock }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
-
   const [stockPrice, setStockPrice] = useState(
     stock?.price || 0
   );
-
   const generalContext = useContext(GeneralContext);
-
   const handleSellClick = async () => {
     try {
       if (stockQuantity <= 0) {
@@ -34,9 +31,9 @@ if (stockPrice <= 0) {
       generalContext.closeSellWindow();
 
       window.location.reload();
-    } catch (err) {
+    } 
+    catch (err) {
       console.log(err);
-
       alert(
         err.response?.data?.message ||
           err.response?.data?.error ||
@@ -49,26 +46,18 @@ if (stockPrice <= 0) {
     <div className="container" id="buy-window">
       <div className="regular-order">
         <h3>{stock?.name}</h3>
-
         <div className="inputs">
           <fieldset>
             <legend>Qty.</legend>
-
-            <input
-              type="number"
-              value={stockQuantity}
+            <input type="number" value={stockQuantity}
               onChange={(e) =>
                 setStockQuantity(e.target.value)
               }
             />
           </fieldset>
-
           <fieldset>
             <legend>Price</legend>
-
-            <input
-              type="number"
-              value={stockPrice}
+            <input type="number" value={stockPrice}
               onChange={(e) =>
                 setStockPrice(e.target.value)
               }
@@ -76,22 +65,13 @@ if (stockPrice <= 0) {
           </fieldset>
         </div>
       </div>
-
       <div className="buttons">
         <span>Amount ₹{stockQuantity * stockPrice}</span>
-
         <div>
-          <Link
-            className="btn btn-blue"
-            onClick={handleSellClick}
-          >
+          <Link className="btn btn-blue" onClick={handleSellClick}>
             Sell
           </Link>
-
-          <Link
-            className="btn btn-grey"
-            onClick={generalContext.closeSellWindow}
-          >
+          <Link className="btn btn-grey" onClick={generalContext.closeSellWindow}>
             Cancel
           </Link>
         </div>

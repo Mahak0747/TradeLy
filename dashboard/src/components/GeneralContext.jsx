@@ -46,13 +46,10 @@ export const GeneralContextProvider = ({ children }) => {
     >
       {children}
 
-      {isBuyWindowOpen && (
-        <BuyActionWindow stock={selectedStock} />
-      )}
+      {isBuyWindowOpen && ( <BuyActionWindow stock={selectedStock} /> )}
 
-      {isSellWindowOpen && (
-        <SellActionWindow stock={selectedStock} />
-      )}
+      {isSellWindowOpen && ( <SellActionWindow stock={selectedStock} /> )}
+      
     </GeneralContext.Provider>
   );
 };

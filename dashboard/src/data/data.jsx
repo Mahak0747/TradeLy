@@ -55,7 +55,7 @@ export const watchlist = [
   },
 ];
 
-// holdings
+
 export const holdings = [
   {
     name: "BHARTIARTL",
@@ -168,7 +168,7 @@ export const holdings = [
   },
 ];
 
-// positions
+
 export const positions = [
   {
     product: "CNC",

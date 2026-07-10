@@ -7,15 +7,14 @@ const AuthLoader = ({ children }) => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const token = params.get("token");
-
     if (token) {
       localStorage.setItem("token", token);
-
       window.history.replaceState({}, "", location.pathname);
     }
   }, [location]);
 
   return children;
+  
 };
 
 export default AuthLoader;

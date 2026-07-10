@@ -21,7 +21,6 @@ const TopBar = () => {
     fetchIndices();
 
     const interval = setInterval(fetchIndices, 15000);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -30,7 +29,6 @@ const TopBar = () => {
       <div className="indices-container">
         <div className="nifty">
           <p className="index">NIFTY 50</p>
-
           <p className="index-points">
             {indices.nifty.price != null
               ? indices.nifty.price.toLocaleString("en-IN", {
@@ -39,17 +37,14 @@ const TopBar = () => {
                 })
               : "--"}
           </p>
-
           <p className="loss">
             {indices.nifty.percent != null
               ? `${indices.nifty.percent >= 0 ? "+" : ""}${indices.nifty.percent.toFixed(2)}%`
               : "--"}
           </p>
         </div>
-
         <div className="sensex">
           <p className="index">SENSEX</p>
-
           <p className="index-points">
             {indices.sensex.price != null
               ? indices.sensex.price.toLocaleString("en-IN", {
@@ -58,7 +53,6 @@ const TopBar = () => {
                 })
               : "--"}
           </p>
-
           <p className="loss">
             {indices.sensex.percent != null
               ? `${indices.sensex.percent >= 0 ? "+" : ""}${indices.sensex.percent.toFixed(2)}%`
@@ -66,7 +60,6 @@ const TopBar = () => {
           </p>
         </div>
       </div>
-
       <Menu />
     </div>
   );
