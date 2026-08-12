@@ -32,7 +32,7 @@ const Login = () => {
 
       alert("Login Successful");
 
-      window.location.href = `http://localhost:5174?token=${res.data.token}`;
+      window.location.href = `/dashboard?token=${res.data.token}`;
     } 
     catch (err) {
       alert(

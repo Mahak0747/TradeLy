@@ -1,18 +1,4 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.dashboard-container {
+.dashboard-scope .dashboard-container {
   width: 100%;
   height: 90vh;
   display: flex;
@@ -20,7 +6,7 @@ code {
   box-sizing: border-box;
 }
 
-.content {
+.dashboard-scope .content {
   flex-basis: 68%;
   height: 100%;
   box-sizing: border-box;
@@ -28,7 +14,7 @@ code {
   padding: 3% 2%;
 }
 
-.funds {
+.dashboard-scope .funds {
   width: 100%;
   text-align: right;
   display: flex;
@@ -36,13 +22,13 @@ code {
   justify-content: flex-end;
 }
 
-.funds p {
+.dashboard-scope .funds p {
   font-size: 0.8rem;
   color: rgb(179, 179, 179);
   margin-right: 8px;
 }
 
-.btn {
+.dashboard-scope .btn {
   text-decoration: none;
   padding: 10px 20px;
   border-radius: 2px;
@@ -51,15 +37,15 @@ code {
   margin-left: 2px;
 }
 
-.btn-green {
+.dashboard-scope .btn-green {
   background: #4caf50;
 }
 
-.btn-blue {
+.dashboard-scope .btn-blue {
   background: #4184f3;
 }
 
-.row {
+.dashboard-scope .row {
   width: 100%;
   display: flex;
   align-items: center;
@@ -67,18 +53,18 @@ code {
   margin-top: 5%;
 }
 
-.col {
+.dashboard-scope .col {
   flex-basis: 48%;
   text-align: left;
 }
 
-.col span {
+.dashboard-scope .col span {
   display: flex;
   align-items: center;
   margin-bottom: 2%;
 }
 
-.section-icon {
+.dashboard-scope .section-icon {
   transform: scale(0.8);
   color: rgb(66, 56, 56);
   padding: 0;
@@ -86,85 +72,85 @@ code {
   margin-right: 10px;
 }
 
-.col span p {
+.dashboard-scope .col span p {
   display: inline-block;
   font-size: 1.2rem;
   font-weight: 300;
 }
 
-.table {
+.dashboard-scope .table {
   border: 1px solid #ddd;
   padding: 5% 8%;
 }
 
-.table .data {
+.dashboard-scope .table .data {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.table .data>* {
+.dashboard-scope .table .data>* {
   margin-bottom: 5%;
 }
 
-.table .data p:first-child {
+.dashboard-scope .table .data p:first-child {
   font-size: 1rem;
   color: rgb(151, 151, 151);
 }
 
-.imp {
+.dashboard-scope .imp {
   font-size: 1.5rem;
   color: #313131;
 }
 
-.colored {
+.dashboard-scope .colored {
   color: #4184f3;
 }
 
-.table hr {
+.dashboard-scope .table hr {
   border: none;
   background: #d1d1d1;
   height: 0.5px;
   margin-bottom: 5%;
 }
 
-.commodity {
+.dashboard-scope .commodity {
   padding: 2% 8%;
   text-align: center;
 }
 
-.commodity p {
+.dashboard-scope .commodity p {
   margin-bottom: 10%;
   color: #c9c9c9;
 }
 
 /* sudo selectors */
-.btn-blue:hover {
+.dashboard-scope .btn-blue:hover {
   background: #74a7fa;
 }
 
-.btn-green:hover {
+.dashboard-scope .btn-green:hover {
   background: #7bdd7f;
 }
 
-.title {
+.dashboard-scope .title {
   font-size: 1.3rem;
   font-weight: 300;
   color: rgb(71, 71, 71);
   margin-bottom: 2%;
 }
 
-.order-table table {
+.dashboard-scope .order-table table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.order-table tr {
+.dashboard-scope .order-table tr {
   border-top: 1px solid #f1f1f1;
   border-bottom: 1px solid #f1f1f1;
 }
 
-.order-table th {
+.dashboard-scope .order-table th {
   text-align: right;
   padding: 15px 10px;
   color: rgb(145, 145, 145);
@@ -172,26 +158,23 @@ code {
   font-size: 0.8rem;
 }
 
-.order-table tr th:first-child,
-.order-table tr td:first-child {
+.dashboard-scope .order-table tr th:first-child, .dashboard-scope .order-table tr td:first-child {
   text-align: left;
 }
 
-.order-table tr th:nth-child(1),
-.order-table tr th:nth-child(4) {
+.dashboard-scope .order-table tr th:nth-child(1), .dashboard-scope .order-table tr th:nth-child(4) {
   border-right: 1px solid #f1f1f1;
 }
 
-.order-table tr td:nth-child(1),
-.order-table tr td:nth-child(4) {
+.dashboard-scope .order-table tr td:nth-child(1), .dashboard-scope .order-table tr td:nth-child(4) {
   border-right: 1px solid #f1f1f1;
 }
 
-.order-table tr td:last-child {
+.dashboard-scope .order-table tr td:last-child {
   font-size: 0.6rem;
 }
 
-.order-table td {
+.dashboard-scope .order-table td {
   padding: 10px 10px;
   text-align: right;
   font-weight: 400;
@@ -199,57 +182,57 @@ code {
   color: rgb(73, 73, 73);
 }
 
-.align-left {
+.dashboard-scope .align-left {
   text-align: left;
 }
 
-.order-table td.profit {
+.dashboard-scope .order-table td.profit {
   color: rgb(72, 194, 55);
 }
 
-.order-table td.loss {
+.dashboard-scope .order-table td.loss {
   color: rgb(250, 118, 78);
 }
 
-.row {
+.dashboard-scope .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 5%;
 }
 
-.col {
+.dashboard-scope .col {
   flex-basis: 33%;
 }
 
-.col h5 {
+.dashboard-scope .col h5 {
   font-size: 1.8rem;
   color: rgb(71, 71, 71);
   font-weight: 300;
 }
 
-.col h5 span {
+.dashboard-scope .col h5 span {
   font-weight: 300;
   font-size: 0.9rem;
 }
 
-.col p {
+.dashboard-scope .col p {
   font-size: 0.8rem;
   color: rgb(153, 153, 153);
   font-weight: 300;
   margin-top: 2%;
 }
 
-.row .col:last-child h5 {
+.dashboard-scope .row .col:last-child h5 {
   color: rgb(72, 194, 55);
 }
 
 /* sudo selector */
-.item:hover {
+.dashboard-scope .item:hover {
   cursor: pointer;
 }
 
-.menu-container {
+.dashboard-scope .menu-container {
   flex-basis: 68%;
   height: 100%;
   padding: 10px 20px;
@@ -259,50 +242,50 @@ code {
   justify-content: space-between;
 }
 
-.logo {
+.dashboard-scope .logo {
   width: 30px;
   height: 20px;
 }
 
-.menus {
+.dashboard-scope .menus {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
 
-.menus ul {
+.dashboard-scope .menus ul {
   list-style-type: none;
 }
 
-.menus li {
+.dashboard-scope .menus li {
   display: inline-block;
   margin-right: 30px;
   text-decoration: none;
 }
 
-.menu {
+.dashboard-scope .menu {
   font-size: 0.8rem;
   font-weight: 400;
   color: rgb(70, 70, 70);
 }
 
-.menu.selected {
+.dashboard-scope .menu.selected {
   color: rgb(245, 104, 52);
 }
 
-hr {
+.dashboard-scope hr {
   border-left: 0.8px solid rgb(243, 242, 242);
   height: 30px;
 }
 
-.profile {
+.dashboard-scope .profile {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   margin-left: 20px;
 }
 
-.profile .avatar {
+.dashboard-scope .profile .avatar {
   width: 30px;
   height: 30px;
   text-align: center;
@@ -319,52 +302,51 @@ hr {
   margin-right: 8px;
 }
 
-.profile .username {
+.dashboard-scope .profile .username {
   font-size: 0.8rem;
   font-weight: 300;
 }
 
 /* sudo selectors */
-
-.menu:hover {
+.dashboard-scope .menu:hover {
   color: rgb(245, 104, 52);
 }
 
-.profile:hover {
+.dashboard-scope .profile:hover {
   cursor: pointer;
 }
 
-.profile:hover .username {
+.dashboard-scope .profile:hover .username {
   cursor: pointer;
   color: rgb(223, 91, 43);
 }
 
-.orders {
+.dashboard-scope .orders {
   width: 100%;
   height: 90vh;
 }
 
-.no-orders {
+.dashboard-scope .no-orders {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.no-orders .icon {
+.dashboard-scope .no-orders .icon {
   transform: scale(4);
   color: rgb(173, 173, 173);
   display: block;
 }
 
-.no-orders p {
+.dashboard-scope .no-orders p {
   margin-top: 6%;
   color: rgb(173, 173, 173);
   font-size: 1rem;
   font-weight: 300;
 }
 
-.btn {
+.dashboard-scope .btn {
   text-decoration: none;
   background: rgb(77, 77, 248);
   padding: 10px 20px;
@@ -373,28 +355,28 @@ hr {
   margin-top: 2%;
 }
 
-.btn:hover {
+.dashboard-scope .btn:hover {
   background: rgb(110, 110, 253);
 }
 
-.title {
+.dashboard-scope .title {
   font-size: 1.3rem;
   font-weight: 300;
   color: rgb(71, 71, 71);
   margin-bottom: 2%;
 }
 
-.order-table table {
+.dashboard-scope .order-table table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.order-table tr {
+.dashboard-scope .order-table tr {
   border-top: 1px solid rgb(211, 211, 211);
   border-bottom: 1px solid rgb(211, 211, 211);
 }
 
-.order-table th {
+.dashboard-scope .order-table th {
   text-align: right;
   padding: 15px 10px;
   color: rgb(145, 145, 145);
@@ -402,12 +384,11 @@ hr {
   font-size: 0.8rem;
 }
 
-.order-table tr th:first-child,
-.order-table tr td:first-child {
+.dashboard-scope .order-table tr th:first-child, .dashboard-scope .order-table tr td:first-child {
   text-align: left;
 }
 
-.order-table tr td:first-child p {
+.dashboard-scope .order-table tr td:first-child p {
   background: rgb(255, 197, 197);
   color: rgb(233, 120, 120);
   width: 50%;
@@ -415,11 +396,11 @@ hr {
   border-radius: 2px;
 }
 
-.order-table tr td:last-child {
+.dashboard-scope .order-table tr td:last-child {
   font-size: 0.6rem;
 }
 
-.order-table td {
+.dashboard-scope .order-table td {
   padding: 10px 10px;
   text-align: right;
   font-weight: 400;
@@ -427,64 +408,64 @@ hr {
   color: rgb(73, 73, 73);
 }
 
-.align-left {
+.dashboard-scope .align-left {
   text-align: left;
 }
 
-.order-table td.profit {
+.dashboard-scope .order-table td.profit {
   color: rgb(72, 194, 55);
 }
 
-.order-table td.loss {
+.dashboard-scope .order-table td.loss {
   color: rgb(250, 118, 78);
 }
 
-.row {
+.dashboard-scope .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 5%;
 }
 
-.col {
+.dashboard-scope .col {
   flex-basis: 33%;
 }
 
-.col h5 {
+.dashboard-scope .col h5 {
   font-size: 1.8rem;
   color: rgb(71, 71, 71);
   font-weight: 300;
 }
 
-.col h5 span {
+.dashboard-scope .col h5 span {
   font-weight: 300;
   font-size: 0.9rem;
 }
 
-.col p {
+.dashboard-scope .col p {
   font-size: 0.8rem;
   color: rgb(153, 153, 153);
   font-weight: 300;
   margin-top: 2%;
 }
 
-.row .col:last-child h5 {
+.dashboard-scope .row .col:last-child h5 {
   color: rgb(72, 194, 55);
 }
 
 /* sudo selector */
-.item:hover {
+.dashboard-scope .item:hover {
   cursor: pointer;
 }
 
-.username h6 {
+.dashboard-scope .username h6 {
   font-size: 1.5rem;
   font-weight: 400;
   color: rgb(83, 83, 83);
   margin-bottom: 20px;
 }
 
-.divider {
+.dashboard-scope .divider {
   border: none;
   background: #d1d1d1;
   height: 1px;
@@ -492,23 +473,23 @@ hr {
   margin-bottom: 5%;
 }
 
-.section {
+.dashboard-scope .section {
   padding-bottom: 2%;
 }
 
-.section span {
+.dashboard-scope .section span {
   display: flex;
   align-items: center;
   margin-bottom: 2%;
 }
 
-.section span p {
+.dashboard-scope .section span p {
   display: inline-block;
   font-size: 1.2rem;
   font-weight: 300;
 }
 
-.section-icon {
+.dashboard-scope .section-icon {
   transform: scale(0.8);
   color: rgb(112, 112, 112);
   padding: 0;
@@ -516,57 +497,57 @@ hr {
   margin-right: 10px;
 }
 
-.data {
+.dashboard-scope .data {
   width: 50%;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
 
-.data .first h3 {
+.dashboard-scope .data .first h3 {
   font-size: 2.5rem;
   font-weight: 300;
   color: rgb(71, 71, 71);
 }
 
-.data .first p {
+.dashboard-scope .data .first p {
   font-size: 0.8rem;
   color: rgb(136, 136, 136);
 }
 
-.data .first small {
+.dashboard-scope .data .first small {
   font-size: 0.8rem;
   color: rgb(72, 194, 55);
 }
 
-.data .first .profit {
+.dashboard-scope .data .first .profit {
   color: rgb(72, 194, 55);
 }
 
-.data hr {
+.dashboard-scope .data hr {
   border-left: 0.6px solid rgb(243, 242, 242);
   height: 70px;
 }
 
-.data .second p {
+.dashboard-scope .data .second p {
   font-size: 0.8rem;
   color: rgb(136, 136, 136);
   margin-bottom: 10px;
   white-space: nowrap;
 }
 
-.data .second p span {
+.dashboard-scope .data .second p span {
   display: inline;
   margin-left: 5%;
   font-size: 0.9rem;
   color: rgb(100, 100, 100);
 }
 
-.section hr {
+.dashboard-scope .section hr {
   margin-top: 6%;
 }
 
-.topbar-container {
+.dashboard-scope .topbar-container {
   width: 100%;
   height: 10vh;
   display: flex;
@@ -576,7 +557,7 @@ hr {
   z-index: 9;
 }
 
-.indices-container {
+.dashboard-scope .indices-container {
   flex-basis: 32%;
   height: 100%;
   padding: 10px 20px;
@@ -587,7 +568,7 @@ hr {
   justify-content: space-around;
 }
 
-.nifty {
+.dashboard-scope .nifty {
   flex-basis: 40%;
   display: flex;
   align-items: center;
@@ -595,19 +576,18 @@ hr {
   z-index: -2;
 }
 
-.sensex {
+.dashboard-scope .sensex {
   flex-basis: 40%;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
 
-.nifty>*,
-.sensex>* {
+.dashboard-scope .nifty>*, .dashboard-scope .sensex>* {
   margin-right: 8px;
 }
 
-.index {
+.dashboard-scope .index {
   font-size: 0.8rem;
   font-weight: 500;
   text-transform: uppercase;
@@ -615,29 +595,29 @@ hr {
   white-space: nowrap;
 }
 
-.index-points {
+.dashboard-scope .index-points {
   font-size: 0.8rem;
   color: #000;
   font-weight: 600;
 }
 
-.loss {
+.dashboard-scope .loss {
   color: #d32f2f;
   font-weight: 600;
 }
 
-.percent {
+.dashboard-scope .percent {
   font-size: 0.8rem;
   font-weight: 400;
   color: rgb(146, 146, 146);
 }
 
 /* sudo selectors */
-.index:hover {
+.dashboard-scope .index:hover {
   cursor: pointer;
 }
 
-.watchlist-container {
+.dashboard-scope .watchlist-container {
   flex-basis: 32%;
   height: 100%;
   box-sizing: border-box;
@@ -646,14 +626,14 @@ hr {
   position: relative;
 }
 
-.search-container {
+.dashboard-scope .search-container {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   position: relative;
 }
 
-.search {
+.dashboard-scope .search {
   width: 100%;
   height: 6%;
   border: none;
@@ -664,7 +644,7 @@ hr {
   border-bottom: 0.8px solid rgb(235, 234, 234);
 }
 
-.counts {
+.dashboard-scope .counts {
   position: absolute;
   right: 20px;
   font-size: 0.9rem;
@@ -672,18 +652,18 @@ hr {
   color: rgb(177, 177, 177);
 }
 
-.list {
+.dashboard-scope .list {
   list-style-type: none;
   padding-bottom: 12%;
 }
 
-.list li {
+.dashboard-scope .list li {
   border-bottom: 0.8px solid rgb(235, 234, 234);
   padding: 12px 10px 12px 14px;
   position: relative;
 }
 
-.item {
+.dashboard-scope .item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -692,33 +672,33 @@ hr {
   position: relative;
 }
 
-.item-info {
+.dashboard-scope .item-info {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
 
-.item-info>* {
+.dashboard-scope .item-info>* {
   margin-right: 8px;
 }
 
-.item-info span:nth-child(1) {
+.dashboard-scope .item-info span:nth-child(1) {
   color: rgb(141, 141, 141);
   flex: 1;
 }
 
-.item-info span:nth-child(2) {
+.dashboard-scope .item-info span:nth-child(2) {
   color: rgb(223, 73, 73);
   margin-right: 12px;
   flex: 2;
 }
 
-.item-info span:nth-child(3) {
+.dashboard-scope .item-info span:nth-child(3) {
   color: rgb(223, 73, 73);
   flex: 1;
 }
 
-.actions {
+.dashboard-scope .actions {
   position: absolute;
   top: 0;
   left: 0;
@@ -729,7 +709,7 @@ hr {
   display: none;
 }
 
-.actions span button {
+.dashboard-scope .actions span button {
   width: 40px;
   height: 30px;
   border-radius: 4px;
@@ -738,7 +718,7 @@ hr {
   cursor: pointer;
 }
 
-.buy {
+.dashboard-scope .buy {
   background-color: #4184f3;
   color: #fff;
   font-weight: 400;
@@ -746,7 +726,7 @@ hr {
   border: 0.7px solid #4184f3;
 }
 
-.sell {
+.dashboard-scope .sell {
   background-color: #ff5722;
   color: #fff;
   font-weight: 400;
@@ -754,17 +734,17 @@ hr {
   border: 0.7px solid #ff5722;
 }
 
-.action {
+.dashboard-scope .action {
   background-color: #fff;
   border: 0.7px solid #9b9b9b;
 }
 
-.icon {
+.dashboard-scope .icon {
   transform: scale(0.7);
   color: rgb(65, 65, 65);
 }
 
-.watchlist-number {
+.dashboard-scope .watchlist-number {
   height: 6%;
   width: 32%;
   box-sizing: border-box;
@@ -780,50 +760,50 @@ hr {
   background: #fff;
 }
 
-.watchlist-number ul {
+.dashboard-scope .watchlist-number ul {
   list-style-type: none;
 }
 
-.watchlist-number ul li {
+.dashboard-scope .watchlist-number ul li {
   display: inline-block;
   padding: 10px 20px;
   border-right: 1px solid rgb(231, 231, 231);
 }
 
-.watchlist-number ul li:nth-child(1) {
+.dashboard-scope .watchlist-number ul li:nth-child(1) {
   color: rgb(223, 73, 73);
 }
 
-.down {
+.dashboard-scope .down {
   color: rgb(223, 73, 73);
 }
 
-.up {
+.dashboard-scope .up {
   color: rgb(103, 201, 136);
 }
 
-.settings {
+.dashboard-scope .settings {
   transform: scale(0.8);
   color: rgb(105, 105, 105);
 }
 
 /* sudo selectors */
-.search:focus {
+.dashboard-scope .search:focus {
   outline: none;
 }
 
-.list li:hover {
+.dashboard-scope .list li:hover {
   cursor: move;
   background-color: #f3f3f3;
 }
 
-.list li:hover>.actions {
+.dashboard-scope .list li:hover>.actions {
   display: flex;
   cursor: move;
 }
 
 /* TODO */
-.list li::before {
+.dashboard-scope .list li::before {
   content: "";
   background: transparent;
   width: 100%;
@@ -833,16 +813,16 @@ hr {
   left: 0;
 }
 
-.watchlist-number ul li:hover {
+.dashboard-scope .watchlist-number ul li:hover {
   color: rgb(245, 104, 52);
   cursor: pointer;
   background: rgb(243, 243, 243);
 }
 
-.settings:hover {
+.dashboard-scope .settings:hover {
   cursor: pointer;
 }
 
-.action:hover {
+.dashboard-scope .action:hover {
   background-color: rgb(212, 212, 212);
 }
