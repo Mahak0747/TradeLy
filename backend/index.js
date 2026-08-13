@@ -4,10 +4,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dns = require("dns");
+// const dns = require("dns");
 const YahooFinance = require("yahoo-finance2").default;
 
-dns.setServers(["1.1.1.1", "8.8.8.8"]);
+// dns.setServers(["1.1.1.1", "8.8.8.8"]);
 const yahooFinance = new YahooFinance();
 
 
