@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../api";
+import { ReceiptLongOutlined } from "@mui/icons-material";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -23,6 +24,7 @@ const Orders = () => {
       <h3 className="title">Orders ({orders.length})</h3>
       {orders.length === 0 ? (
         <div className="no-orders">
+          <ReceiptLongOutlined className="icon" />
           <p>You haven't placed any orders yet.</p>
         </div>
       ) : (

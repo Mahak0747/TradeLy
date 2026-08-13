@@ -1,288 +1,248 @@
-.dashboard-scope .dashboard-container {
-  width: 100%;
-  height: 90vh;
-  display: flex;
-  align-items: center;
+/* =========================================================================
+   Dashboard visual system
+   Scoped entirely under .dashboard-scope so nothing leaks to the rest
+   of the site. White surfaces, blue primary/accent, grey structure,
+   semantic green/red reserved for gains/losses only.
+   ========================================================================= */
+
+.dashboard-scope {
+  --db-bg: #ffffff;
+  --db-bg-subtle: #f8fafc;
+  --db-bg-hover: #f1f5f9;
+  --db-border: #e2e8f0;
+  --db-border-strong: #cbd5e1;
+
+  --db-text: #0f172a;
+  --db-text-secondary: #64748b;
+  --db-text-muted: #94a3b8;
+
+  --db-primary: #2563eb;
+  --db-primary-hover: #1d4ed8;
+  --db-primary-light: #eff6ff;
+  --db-primary-border: #bfdbfe;
+
+  --db-success: #16a34a;
+  --db-success-light: #f0fdf4;
+  --db-danger: #dc2626;
+  --db-danger-light: #fef2f2;
+
+  --db-radius-sm: 6px;
+  --db-radius: 10px;
+  --db-radius-lg: 14px;
+
+  --db-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --db-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 10px rgba(15, 23, 42, 0.05);
+
+  --db-sidebar-width: 320px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--db-text);
+  background: var(--db-bg-subtle);
+}
+
+.dashboard-scope * {
   box-sizing: border-box;
 }
 
-.dashboard-scope .content {
-  flex-basis: 68%;
+.dashboard-scope ::selection {
+  background: var(--db-primary-light);
+  color: var(--db-primary-hover);
+}
+
+.dashboard-scope a {
+  color: inherit;
+}
+
+/* -------------------------------------------------------------------------
+   Top bar
+   ------------------------------------------------------------------------- */
+
+.dashboard-scope .topbar-container {
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: stretch;
+  background: var(--db-bg);
+  border-bottom: 1px solid var(--db-border);
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.dashboard-scope .indices-container {
+  flex: 0 0 var(--db-sidebar-width);
   height: 100%;
+  padding: 0 24px;
+  border-right: 1px solid var(--db-border);
   box-sizing: border-box;
-  overflow-y: auto;
-  padding: 3% 2%;
-}
-
-.dashboard-scope .funds {
-  width: 100%;
-  text-align: right;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  gap: 28px;
 }
 
-.dashboard-scope .funds p {
+.dashboard-scope .nifty,
+.dashboard-scope .sensex {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  z-index: auto;
+}
+
+.dashboard-scope .nifty > *,
+.dashboard-scope .sensex > * {
+  margin-right: 0;
+}
+
+.dashboard-scope .index {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--db-text-muted);
+  white-space: nowrap;
+}
+
+.dashboard-scope .index-points {
+  font-size: 0.88rem;
+  color: var(--db-text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard-scope .loss {
+  color: var(--db-danger);
+  font-weight: 600;
   font-size: 0.8rem;
-  color: rgb(179, 179, 179);
-  margin-right: 8px;
+  font-variant-numeric: tabular-nums;
 }
 
-.dashboard-scope .btn {
-  text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 2px;
-  color: #fff;
-  margin-right: 2px;
-  margin-left: 2px;
-}
-
-.dashboard-scope .btn-green {
-  background: #4caf50;
-}
-
-.dashboard-scope .btn-blue {
-  background: #4184f3;
-}
-
-.dashboard-scope .row {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  margin-top: 5%;
-}
-
-.dashboard-scope .col {
-  flex-basis: 48%;
-  text-align: left;
-}
-
-.dashboard-scope .col span {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2%;
-}
-
-.dashboard-scope .section-icon {
-  transform: scale(0.8);
-  color: rgb(66, 56, 56);
-  padding: 0;
-  margin: 0;
-  margin-right: 10px;
-}
-
-.dashboard-scope .col span p {
-  display: inline-block;
-  font-size: 1.2rem;
-  font-weight: 300;
-}
-
-.dashboard-scope .table {
-  border: 1px solid #ddd;
-  padding: 5% 8%;
-}
-
-.dashboard-scope .table .data {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.dashboard-scope .table .data>* {
-  margin-bottom: 5%;
-}
-
-.dashboard-scope .table .data p:first-child {
-  font-size: 1rem;
-  color: rgb(151, 151, 151);
-}
-
-.dashboard-scope .imp {
-  font-size: 1.5rem;
-  color: #313131;
-}
-
-.dashboard-scope .colored {
-  color: #4184f3;
-}
-
-.dashboard-scope .table hr {
-  border: none;
-  background: #d1d1d1;
-  height: 0.5px;
-  margin-bottom: 5%;
-}
-
-.dashboard-scope .commodity {
-  padding: 2% 8%;
-  text-align: center;
-}
-
-.dashboard-scope .commodity p {
-  margin-bottom: 10%;
-  color: #c9c9c9;
-}
-
-/* sudo selectors */
-.dashboard-scope .btn-blue:hover {
-  background: #74a7fa;
-}
-
-.dashboard-scope .btn-green:hover {
-  background: #7bdd7f;
-}
-
-.dashboard-scope .title {
-  font-size: 1.3rem;
-  font-weight: 300;
-  color: rgb(71, 71, 71);
-  margin-bottom: 2%;
-}
-
-.dashboard-scope .order-table table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.dashboard-scope .order-table tr {
-  border-top: 1px solid #f1f1f1;
-  border-bottom: 1px solid #f1f1f1;
-}
-
-.dashboard-scope .order-table th {
-  text-align: right;
-  padding: 15px 10px;
-  color: rgb(145, 145, 145);
-  font-weight: 300;
+.dashboard-scope .percent {
   font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--db-text-secondary);
 }
 
-.dashboard-scope .order-table tr th:first-child, .dashboard-scope .order-table tr td:first-child {
-  text-align: left;
+.dashboard-scope .index:hover {
+  cursor: default;
 }
 
-.dashboard-scope .order-table tr th:nth-child(1), .dashboard-scope .order-table tr th:nth-child(4) {
-  border-right: 1px solid #f1f1f1;
-}
-
-.dashboard-scope .order-table tr td:nth-child(1), .dashboard-scope .order-table tr td:nth-child(4) {
-  border-right: 1px solid #f1f1f1;
-}
-
-.dashboard-scope .order-table tr td:last-child {
-  font-size: 0.6rem;
-}
-
-.dashboard-scope .order-table td {
-  padding: 10px 10px;
-  text-align: right;
-  font-weight: 400;
-  font-size: 0.9rem;
-  color: rgb(73, 73, 73);
-}
-
-.dashboard-scope .align-left {
-  text-align: left;
-}
-
-.dashboard-scope .order-table td.profit {
-  color: rgb(72, 194, 55);
-}
-
-.dashboard-scope .order-table td.loss {
-  color: rgb(250, 118, 78);
-}
-
-.dashboard-scope .row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 5%;
-}
-
-.dashboard-scope .col {
-  flex-basis: 33%;
-}
-
-.dashboard-scope .col h5 {
-  font-size: 1.8rem;
-  color: rgb(71, 71, 71);
-  font-weight: 300;
-}
-
-.dashboard-scope .col h5 span {
-  font-weight: 300;
-  font-size: 0.9rem;
-}
-
-.dashboard-scope .col p {
-  font-size: 0.8rem;
-  color: rgb(153, 153, 153);
-  font-weight: 300;
-  margin-top: 2%;
-}
-
-.dashboard-scope .row .col:last-child h5 {
-  color: rgb(72, 194, 55);
-}
-
-/* sudo selector */
-.dashboard-scope .item:hover {
-  cursor: pointer;
-}
+/* -------------------------------------------------------------------------
+   Nav / Menu
+   ------------------------------------------------------------------------- */
 
 .dashboard-scope .menu-container {
-  flex-basis: 68%;
+  flex: 1 1 auto;
   height: 100%;
-  padding: 10px 20px;
+  padding: 0 24px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-width: 0;
+}
+
+.dashboard-scope .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 32px;
+  flex-shrink: 0;
+}
+
+.dashboard-scope .brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--db-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: -0.02em;
 }
 
 .dashboard-scope .logo {
-  width: 30px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: cover;
 }
 
 .dashboard-scope .menus {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  flex: 1;
+  min-width: 0;
 }
 
 .dashboard-scope .menus ul {
   list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
 }
 
 .dashboard-scope .menus li {
   display: inline-block;
-  margin-right: 30px;
+  margin-right: 0;
   text-decoration: none;
 }
 
 .dashboard-scope .menu {
-  font-size: 0.8rem;
-  font-weight: 400;
-  color: rgb(70, 70, 70);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--db-text-secondary);
+  padding: 8px 14px;
+  border-radius: var(--db-radius-sm);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.dashboard-scope .menu .nav-icon {
+  font-size: 1.05rem !important;
+  opacity: 0.85;
 }
 
 .dashboard-scope .menu.selected {
-  color: rgb(245, 104, 52);
+  color: var(--db-primary);
+  background: var(--db-primary-light);
+  font-weight: 600;
+}
+
+.dashboard-scope .menu:hover {
+  color: var(--db-primary);
+  background: var(--db-bg-hover);
+  cursor: pointer;
+}
+
+.dashboard-scope .menu.selected:hover {
+  background: var(--db-primary-light);
 }
 
 .dashboard-scope hr {
-  border-left: 0.8px solid rgb(243, 242, 242);
-  height: 30px;
+  border: none;
+  border-left: 1px solid var(--db-border);
+  height: 24px;
+  margin: 0 16px;
 }
 
 .dashboard-scope .profile {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  margin-left: 20px;
+  gap: 8px;
+  margin-left: 8px;
+  padding: 6px 10px 6px 6px;
+  border-radius: 999px;
+  transition: background-color 0.15s ease;
+  flex-shrink: 0;
 }
 
 .dashboard-scope .profile .avatar {
@@ -291,411 +251,225 @@
   text-align: center;
   position: relative;
   font-size: 0.7rem;
-  font-weight: 400;
-  color: rgb(221, 139, 221);
+  font-weight: 700;
+  color: #fff;
   justify-content: center;
   align-items: center;
   border-radius: 100%;
-  text-align: center;
   display: flex;
-  background: rgb(252, 229, 252);
-  margin-right: 8px;
+  background: var(--db-primary);
+  margin-right: 0;
+  flex-shrink: 0;
 }
 
 .dashboard-scope .profile .username {
-  font-size: 0.8rem;
-  font-weight: 300;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--db-text);
+  white-space: nowrap;
 }
 
-/* sudo selectors */
-.dashboard-scope .menu:hover {
-  color: rgb(245, 104, 52);
+.dashboard-scope .profile-caret {
+  font-size: 1.1rem !important;
+  color: var(--db-text-muted);
+  transition: transform 0.15s ease;
+}
+
+.dashboard-scope .profile-caret.open {
+  transform: rotate(180deg);
 }
 
 .dashboard-scope .profile:hover {
   cursor: pointer;
+  background: var(--db-bg-hover);
 }
 
 .dashboard-scope .profile:hover .username {
-  cursor: pointer;
-  color: rgb(223, 91, 43);
+  color: var(--db-primary);
 }
 
-.dashboard-scope .orders {
+/* -------------------------------------------------------------------------
+   Dashboard shell
+   ------------------------------------------------------------------------- */
+
+.dashboard-scope .dashboard-container {
   width: 100%;
-  height: 90vh;
-}
-
-.dashboard-scope .no-orders {
+  min-height: calc(100vh - 64px);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
 }
 
-.dashboard-scope .no-orders .icon {
-  transform: scale(4);
-  color: rgb(173, 173, 173);
-  display: block;
-}
-
-.dashboard-scope .no-orders p {
-  margin-top: 6%;
-  color: rgb(173, 173, 173);
-  font-size: 1rem;
-  font-weight: 300;
-}
-
-.dashboard-scope .btn {
-  text-decoration: none;
-  background: rgb(77, 77, 248);
-  padding: 10px 20px;
-  border-radius: 2px;
-  color: #fff;
-  margin-top: 2%;
-}
-
-.dashboard-scope .btn:hover {
-  background: rgb(110, 110, 253);
+.dashboard-scope .content {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: calc(100vh - 64px);
+  box-sizing: border-box;
+  overflow-y: auto;
+  padding: 32px 40px 64px;
 }
 
 .dashboard-scope .title {
-  font-size: 1.3rem;
-  font-weight: 300;
-  color: rgb(71, 71, 71);
-  margin-bottom: 2%;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--db-text);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
 }
 
-.dashboard-scope .order-table table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.dashboard-scope .order-table tr {
-  border-top: 1px solid rgb(211, 211, 211);
-  border-bottom: 1px solid rgb(211, 211, 211);
-}
-
-.dashboard-scope .order-table th {
-  text-align: right;
-  padding: 15px 10px;
-  color: rgb(145, 145, 145);
-  font-weight: 300;
-  font-size: 0.8rem;
-}
-
-.dashboard-scope .order-table tr th:first-child, .dashboard-scope .order-table tr td:first-child {
-  text-align: left;
-}
-
-.dashboard-scope .order-table tr td:first-child p {
-  background: rgb(255, 197, 197);
-  color: rgb(233, 120, 120);
-  width: 50%;
-  text-align: center;
-  border-radius: 2px;
-}
-
-.dashboard-scope .order-table tr td:last-child {
-  font-size: 0.6rem;
-}
-
-.dashboard-scope .order-table td {
-  padding: 10px 10px;
-  text-align: right;
-  font-weight: 400;
-  font-size: 0.9rem;
-  color: rgb(73, 73, 73);
-}
-
-.dashboard-scope .align-left {
-  text-align: left;
-}
-
-.dashboard-scope .order-table td.profit {
-  color: rgb(72, 194, 55);
-}
-
-.dashboard-scope .order-table td.loss {
-  color: rgb(250, 118, 78);
-}
-
-.dashboard-scope .row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 5%;
-}
-
-.dashboard-scope .col {
-  flex-basis: 33%;
-}
-
-.dashboard-scope .col h5 {
-  font-size: 1.8rem;
-  color: rgb(71, 71, 71);
-  font-weight: 300;
-}
-
-.dashboard-scope .col h5 span {
-  font-weight: 300;
-  font-size: 0.9rem;
-}
-
-.dashboard-scope .col p {
-  font-size: 0.8rem;
-  color: rgb(153, 153, 153);
-  font-weight: 300;
-  margin-top: 2%;
-}
-
-.dashboard-scope .row .col:last-child h5 {
-  color: rgb(72, 194, 55);
-}
-
-/* sudo selector */
-.dashboard-scope .item:hover {
-  cursor: pointer;
-}
-
-.dashboard-scope .username h6 {
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: rgb(83, 83, 83);
-  margin-bottom: 20px;
-}
-
-.dashboard-scope .divider {
-  border: none;
-  background: #d1d1d1;
-  height: 1px;
-  margin: 20px 0;
-  margin-bottom: 5%;
-}
-
-.dashboard-scope .section {
-  padding-bottom: 2%;
-}
-
-.dashboard-scope .section span {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2%;
-}
-
-.dashboard-scope .section span p {
-  display: inline-block;
-  font-size: 1.2rem;
-  font-weight: 300;
-}
-
-.dashboard-scope .section-icon {
-  transform: scale(0.8);
-  color: rgb(112, 112, 112);
-  padding: 0;
-  margin: 0;
-  margin-right: 10px;
-}
-
-.dashboard-scope .data {
-  width: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.dashboard-scope .data .first h3 {
-  font-size: 2.5rem;
-  font-weight: 300;
-  color: rgb(71, 71, 71);
-}
-
-.dashboard-scope .data .first p {
-  font-size: 0.8rem;
-  color: rgb(136, 136, 136);
-}
-
-.dashboard-scope .data .first small {
-  font-size: 0.8rem;
-  color: rgb(72, 194, 55);
-}
-
-.dashboard-scope .data .first .profit {
-  color: rgb(72, 194, 55);
-}
-
-.dashboard-scope .data hr {
-  border-left: 0.6px solid rgb(243, 242, 242);
-  height: 70px;
-}
-
-.dashboard-scope .data .second p {
-  font-size: 0.8rem;
-  color: rgb(136, 136, 136);
-  margin-bottom: 10px;
-  white-space: nowrap;
-}
-
-.dashboard-scope .data .second p span {
-  display: inline;
-  margin-left: 5%;
-  font-size: 0.9rem;
-  color: rgb(100, 100, 100);
-}
-
-.dashboard-scope .section hr {
-  margin-top: 6%;
-}
-
-.dashboard-scope .topbar-container {
-  width: 100%;
-  height: 10vh;
-  display: flex;
-  align-items: center;
-  box-shadow: 0px 0px 4px 2px rgb(236, 235, 235);
-  box-sizing: border-box;
-  z-index: 9;
-}
-
-.dashboard-scope .indices-container {
-  flex-basis: 32%;
-  height: 100%;
-  padding: 10px 20px;
-  border-right: 1px solid rgb(224, 224, 224);
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.dashboard-scope .nifty {
-  flex-basis: 40%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  z-index: -2;
-}
-
-.dashboard-scope .sensex {
-  flex-basis: 40%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.dashboard-scope .nifty>*, .dashboard-scope .sensex>* {
-  margin-right: 8px;
-}
-
-.dashboard-scope .index {
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  color: rgb(97, 97, 97);
-  white-space: nowrap;
-}
-
-.dashboard-scope .index-points {
-  font-size: 0.8rem;
-  color: #000;
-  font-weight: 600;
-}
-
-.dashboard-scope .loss {
-  color: #d32f2f;
-  font-weight: 600;
-}
-
-.dashboard-scope .percent {
-  font-size: 0.8rem;
-  font-weight: 400;
-  color: rgb(146, 146, 146);
-}
-
-/* sudo selectors */
-.dashboard-scope .index:hover {
-  cursor: pointer;
-}
+/* -------------------------------------------------------------------------
+   Watchlist sidebar
+   ------------------------------------------------------------------------- */
 
 .dashboard-scope .watchlist-container {
-  flex-basis: 32%;
-  height: 100%;
+  flex: 0 0 var(--db-sidebar-width);
+  height: calc(100vh - 64px);
+  position: sticky;
+  top: 64px;
   box-sizing: border-box;
-  box-shadow: 0px 0px 4px 1px rgb(236, 235, 235);
+  background: var(--db-bg);
+  border-right: 1px solid var(--db-border);
   overflow-y: auto;
-  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard-scope .search-container {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
   position: relative;
+  border-bottom: 1px solid var(--db-border);
+  background: var(--db-bg);
+  flex-shrink: 0;
+}
+
+.dashboard-scope .search-icon {
+  position: absolute;
+  left: 16px;
+  font-size: 1.1rem !important;
+  color: var(--db-text-muted);
+  pointer-events: none;
 }
 
 .dashboard-scope .search {
   width: 100%;
-  height: 6%;
+  height: 44px;
   border: none;
-  padding: 15px 20px;
-  font-size: 0.9rem;
+  padding: 0 60px 0 44px;
+  font-size: 0.85rem;
   font-weight: 400;
-  color: rgb(241, 241, 241);
-  border-bottom: 0.8px solid rgb(235, 234, 234);
+  color: var(--db-text);
+  background: transparent;
+}
+
+.dashboard-scope .search::placeholder {
+  color: var(--db-text-muted);
 }
 
 .dashboard-scope .counts {
   position: absolute;
-  right: 20px;
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: rgb(177, 177, 177);
+  right: 16px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--db-text-muted);
+  background: var(--db-bg-subtle);
+  border: 1px solid var(--db-border);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.dashboard-scope .search:focus {
+  outline: none;
 }
 
 .dashboard-scope .list {
   list-style-type: none;
-  padding-bottom: 12%;
+  padding: 4px 0;
+  margin: 0;
+  flex-shrink: 0;
 }
 
 .dashboard-scope .list li {
-  border-bottom: 0.8px solid rgb(235, 234, 234);
-  padding: 12px 10px 12px 14px;
+  border-bottom: 1px solid var(--db-bg-subtle);
+  padding: 10px 16px;
   position: relative;
+  transition: background-color 0.12s ease;
+}
+
+.dashboard-scope .list li:hover {
+  cursor: default;
+  background-color: var(--db-bg-subtle);
 }
 
 .dashboard-scope .item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 300;
-  font-size: 0.8rem;
+  font-weight: 500;
+  font-size: 0.85rem;
   position: relative;
 }
 
+.dashboard-scope .item p {
+  margin: 0;
+  color: var(--db-text);
+  font-weight: 600;
+}
+
+.dashboard-scope .item .up::before,
+.dashboard-scope .item .down::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.dashboard-scope .item .up::before {
+  background: var(--db-success);
+}
+
+.dashboard-scope .item .down::before {
+  background: var(--db-danger);
+}
+
+.dashboard-scope .itemInfo,
 .dashboard-scope .item-info {
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
+  gap: 6px;
 }
 
-.dashboard-scope .item-info>* {
-  margin-right: 8px;
+.dashboard-scope .itemInfo .percent,
+.dashboard-scope .item-info .percent {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--db-text-secondary);
 }
 
-.dashboard-scope .item-info span:nth-child(1) {
-  color: rgb(141, 141, 141);
-  flex: 1;
+.dashboard-scope .itemInfo svg,
+.dashboard-scope .item-info svg {
+  font-size: 1rem !important;
 }
 
-.dashboard-scope .item-info span:nth-child(2) {
-  color: rgb(223, 73, 73);
-  margin-right: 12px;
-  flex: 2;
+.dashboard-scope .itemInfo .price,
+.dashboard-scope .item-info .price {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--db-text);
+  font-variant-numeric: tabular-nums;
+  min-width: 56px;
+  text-align: right;
 }
 
-.dashboard-scope .item-info span:nth-child(3) {
-  color: rgb(223, 73, 73);
-  flex: 1;
+.dashboard-scope .down {
+  color: var(--db-danger);
+}
+
+.dashboard-scope .up {
+  color: var(--db-success);
 }
 
 .dashboard-scope .actions {
@@ -707,102 +481,75 @@
   align-items: center;
   justify-content: flex-end;
   display: none;
+  background: linear-gradient(90deg, rgba(248, 250, 252, 0) 0%, var(--db-bg-subtle) 24%, var(--db-bg-subtle) 100%);
+  padding-right: 16px;
+}
+
+.dashboard-scope .list li:hover > .actions {
+  display: flex;
+  cursor: default;
 }
 
 .dashboard-scope .actions span button {
-  width: 40px;
-  height: 30px;
-  border-radius: 4px;
+  min-width: 40px;
+  height: 28px;
+  border-radius: var(--db-radius-sm);
   text-align: center;
-  margin-right: 8px;
+  margin-right: 6px;
   cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 600;
+  transition: filter 0.12s ease, background-color 0.12s ease;
 }
 
 .dashboard-scope .buy {
-  background-color: #4184f3;
+  background-color: var(--db-primary);
   color: #fff;
-  font-weight: 400;
-  font-size: 0.8rem;
-  border: 0.7px solid #4184f3;
+  border: 1px solid var(--db-primary);
+  padding: 0 10px;
+}
+
+.dashboard-scope .buy:hover {
+  background-color: var(--db-primary-hover);
+  border-color: var(--db-primary-hover);
 }
 
 .dashboard-scope .sell {
-  background-color: #ff5722;
-  color: #fff;
-  font-weight: 400;
-  font-size: 0.8rem;
-  border: 0.7px solid #ff5722;
+  background-color: #fff;
+  color: var(--db-danger);
+  border: 1px solid #fca5a5;
+  padding: 0 10px;
+}
+
+.dashboard-scope .sell:hover {
+  background-color: var(--db-danger-light);
 }
 
 .dashboard-scope .action {
   background-color: #fff;
-  border: 0.7px solid #9b9b9b;
+  border: 1px solid var(--db-border-strong);
+  width: 28px;
+  padding: 0;
+}
+
+.dashboard-scope .action:hover {
+  background-color: var(--db-bg-hover);
 }
 
 .dashboard-scope .icon {
-  transform: scale(0.7);
-  color: rgb(65, 65, 65);
-}
-
-.dashboard-scope .watchlist-number {
-  height: 6%;
-  width: 32%;
-  box-sizing: border-box;
-  position: fixed;
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  bottom: 1px;
-  padding: 20px 20px 20px 0;
-  left: 0;
-  border: 1px solid rgb(231, 231, 231);
-  z-index: 5;
-  background: #fff;
-}
-
-.dashboard-scope .watchlist-number ul {
-  list-style-type: none;
-}
-
-.dashboard-scope .watchlist-number ul li {
-  display: inline-block;
-  padding: 10px 20px;
-  border-right: 1px solid rgb(231, 231, 231);
-}
-
-.dashboard-scope .watchlist-number ul li:nth-child(1) {
-  color: rgb(223, 73, 73);
-}
-
-.dashboard-scope .down {
-  color: rgb(223, 73, 73);
-}
-
-.dashboard-scope .up {
-  color: rgb(103, 201, 136);
+  transform: scale(0.85);
+  color: var(--db-text-secondary);
 }
 
 .dashboard-scope .settings {
   transform: scale(0.8);
-  color: rgb(105, 105, 105);
+  color: var(--db-text-secondary);
 }
 
-/* sudo selectors */
-.dashboard-scope .search:focus {
-  outline: none;
+.dashboard-scope .settings:hover {
+  cursor: pointer;
 }
 
-.dashboard-scope .list li:hover {
-  cursor: move;
-  background-color: #f3f3f3;
-}
-
-.dashboard-scope .list li:hover>.actions {
-  display: flex;
-  cursor: move;
-}
-
-/* TODO */
 .dashboard-scope .list li::before {
   content: "";
   background: transparent;
@@ -813,16 +560,593 @@
   left: 0;
 }
 
-.dashboard-scope .watchlist-number ul li:hover {
-  color: rgb(245, 104, 52);
-  cursor: pointer;
-  background: rgb(243, 243, 243);
+.dashboard-scope .watchlist-chart {
+  margin-top: auto;
+  padding: 20px 16px 24px;
+  border-top: 1px solid var(--db-border);
+  flex-shrink: 0;
 }
 
-.dashboard-scope .settings:hover {
-  cursor: pointer;
+.dashboard-scope .watchlist-chart .panel-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--db-text-muted);
+  margin: 0 0 12px;
 }
 
-.dashboard-scope .action:hover {
-  background-color: rgb(212, 212, 212);
+/* -------------------------------------------------------------------------
+   Generic panels / cards used across Funds, Summary, tables
+   ------------------------------------------------------------------------- */
+
+.dashboard-scope .panel {
+  background: var(--db-bg);
+  border: 1px solid var(--db-border);
+  border-radius: var(--db-radius);
+  box-shadow: var(--db-shadow-sm);
+  padding: 24px;
+}
+
+.dashboard-scope .panel + .panel {
+  margin-top: 24px;
+}
+
+.dashboard-scope .funds {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--db-bg);
+  border: 1px solid var(--db-border);
+  border-radius: var(--db-radius);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.dashboard-scope .funds p {
+  font-size: 0.85rem;
+  color: var(--db-text-secondary);
+  margin: 0;
+  margin-right: 8px;
+}
+
+.dashboard-scope .btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 18px;
+  border-radius: var(--db-radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+  margin-right: 0;
+  margin-left: 0;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.dashboard-scope .btn-green {
+  background: var(--db-success);
+  border-color: var(--db-success);
+}
+
+.dashboard-scope .btn-green:hover {
+  background: #15803d;
+  border-color: #15803d;
+}
+
+.dashboard-scope .btn-blue {
+  background: var(--db-primary);
+  border-color: var(--db-primary);
+}
+
+.dashboard-scope .btn-blue:hover {
+  background: var(--db-primary-hover);
+  border-color: var(--db-primary-hover);
+}
+
+.dashboard-scope .btn-grey {
+  background: #fff;
+  color: var(--db-text-secondary);
+  border-color: var(--db-border-strong);
+}
+
+.dashboard-scope .btn-grey:hover {
+  background: var(--db-bg-hover);
+  color: var(--db-text);
+  border-color: var(--db-border-strong);
+}
+
+.dashboard-scope .row {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.dashboard-scope .col {
+  flex: 1 1 0;
+  text-align: left;
+  background: var(--db-bg);
+  border: 1px solid var(--db-border);
+  border-radius: var(--db-radius);
+  padding: 20px;
+}
+
+.dashboard-scope .col span {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.dashboard-scope .section-icon {
+  transform: scale(0.85);
+  color: var(--db-text-muted);
+  padding: 0;
+  margin: 0;
+  margin-right: 8px;
+}
+
+.dashboard-scope .col span p {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--db-text-muted);
+}
+
+.dashboard-scope .table {
+  border: none;
+  padding: 0;
+}
+
+.dashboard-scope .table .data {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 0;
+}
+
+.dashboard-scope .table .data > * {
+  margin-bottom: 0;
+}
+
+.dashboard-scope .table .data p:first-child {
+  font-size: 0.85rem;
+  color: var(--db-text-secondary);
+  font-weight: 500;
+}
+
+.dashboard-scope .imp {
+  font-size: 1.05rem;
+  color: var(--db-text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard-scope .colored {
+  color: var(--db-primary);
+}
+
+.dashboard-scope .table hr {
+  border: none;
+  background: var(--db-border);
+  height: 1px;
+  margin: 4px 0 8px;
+}
+
+.dashboard-scope .commodity {
+  padding: 12px 8px;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-scope .commodity p {
+  margin-bottom: 16px;
+  color: var(--db-text-secondary);
+  font-size: 0.85rem;
+}
+
+/* -------------------------------------------------------------------------
+   Tables: Holdings / Orders / Positions
+   ------------------------------------------------------------------------- */
+
+.dashboard-scope .orders {
+  width: 100%;
+}
+
+.dashboard-scope .order-table {
+  background: var(--db-bg);
+  border: 1px solid var(--db-border);
+  border-radius: var(--db-radius);
+  overflow: hidden;
+}
+
+.dashboard-scope .order-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dashboard-scope .order-table thead tr {
+  background: var(--db-bg-subtle);
+  border-top: none;
+  border-bottom: 1px solid var(--db-border);
+}
+
+.dashboard-scope .order-table tr {
+  border-top: none;
+  border-bottom: 1px solid var(--db-bg-subtle);
+}
+
+.dashboard-scope .order-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.dashboard-scope .order-table tbody tr:hover {
+  background: var(--db-bg-subtle);
+}
+
+.dashboard-scope .order-table th {
+  text-align: right;
+  padding: 12px 16px;
+  color: var(--db-text-muted);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dashboard-scope .order-table tr th:first-child,
+.dashboard-scope .order-table tr td:first-child {
+  text-align: left;
+}
+
+.dashboard-scope .order-table tr th:nth-child(1),
+.dashboard-scope .order-table tr th:nth-child(4),
+.dashboard-scope .order-table tr td:nth-child(1),
+.dashboard-scope .order-table tr td:nth-child(4) {
+  border-right: none;
+}
+
+.dashboard-scope .order-table tr td:last-child {
+  font-size: 0.78rem;
+  color: var(--db-text-secondary);
+}
+
+.dashboard-scope .order-table tr td:first-child p {
+  background: var(--db-primary-light);
+  color: var(--db-primary);
+  width: fit-content;
+  padding: 3px 10px;
+  text-align: center;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.dashboard-scope .order-table td {
+  padding: 12px 16px;
+  text-align: right;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--db-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard-scope .order-table td:first-child {
+  font-weight: 600;
+}
+
+.dashboard-scope .align-left {
+  text-align: left;
+}
+
+.dashboard-scope .order-table td.profit {
+  color: var(--db-success);
+  font-weight: 600;
+}
+
+.dashboard-scope .order-table td.loss {
+  color: var(--db-danger);
+  font-weight: 600;
+}
+
+.dashboard-scope .no-orders {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 24px;
+  background: var(--db-bg);
+  border: 1px dashed var(--db-border-strong);
+  border-radius: var(--db-radius);
+}
+
+.dashboard-scope .no-orders .icon {
+  transform: scale(2.4);
+  color: var(--db-text-muted);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.dashboard-scope .no-orders p {
+  margin-top: 6px;
+  color: var(--db-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Holdings / Positions summary strip beneath the table reuses .row/.col above,
+   but numbers need a bigger, statement-style treatment */
+
+.dashboard-scope .row .col h5 {
+  font-size: 1.5rem;
+  color: var(--db-text);
+  font-weight: 700;
+  margin: 0 0 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard-scope .row .col h5 span {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.dashboard-scope .row .col p {
+  font-size: 0.78rem;
+  color: var(--db-text-muted);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.dashboard-scope .row .col:last-child h5 {
+  color: var(--db-success);
+}
+
+/* Chart card wrapper (Holdings bar chart) */
+
+.dashboard-scope .chart-panel {
+  background: var(--db-bg);
+  border: 1px solid var(--db-border);
+  border-radius: var(--db-radius);
+  padding: 20px;
+  margin-top: 24px;
+}
+
+/* -------------------------------------------------------------------------
+   Summary page
+   ------------------------------------------------------------------------- */
+
+.dashboard-scope .username {
+  margin-bottom: 4px;
+}
+
+.dashboard-scope .username h6 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--db-text);
+  margin: 0 0 20px;
+  letter-spacing: -0.01em;
+}
+
+.dashboard-scope .divider {
+  border: none;
+  background: var(--db-border);
+  height: 1px;
+  margin: 0 0 24px;
+}
+
+.dashboard-scope .section {
+  background: var(--db-bg);
+  border: 1px solid var(--db-border);
+  border-radius: var(--db-radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.dashboard-scope .section span {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.dashboard-scope .section span p {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--db-text-muted);
+}
+
+.dashboard-scope .section > hr.divider {
+  /* the card border already separates sections; the inline divider
+     that used to do this job visually is now redundant */
+  display: none;
+}
+
+.dashboard-scope .data {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 40px;
+}
+
+.dashboard-scope .data .first {
+  flex-shrink: 0;
+}
+
+.dashboard-scope .data .first h3 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--db-text);
+  margin: 0 0 4px;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard-scope .data .first p {
+  font-size: 0.82rem;
+  color: var(--db-text-secondary);
+  font-weight: 500;
+  margin: 0;
+}
+
+.dashboard-scope .data .first small {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--db-success);
+  margin-left: 4px;
+}
+
+.dashboard-scope .data .first .profit {
+  color: var(--db-success);
+}
+
+.dashboard-scope .data .first h3.loss {
+  color: var(--db-danger);
+}
+
+.dashboard-scope .data .first h3.loss small {
+  color: var(--db-danger);
+}
+
+.dashboard-scope .data hr {
+  border: none;
+  border-left: 1px solid var(--db-border);
+  height: 56px;
+  margin: 0;
+}
+
+.dashboard-scope .data .second {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dashboard-scope .data .second p {
+  font-size: 0.85rem;
+  color: var(--db-text-secondary);
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.dashboard-scope .data .second p span {
+  display: inline;
+  margin-left: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--db-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .dashboard-scope {
+    --db-sidebar-width: 260px;
+  }
+
+  .dashboard-scope .content {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 860px) {
+  .dashboard-scope .topbar-container {
+    height: auto;
+    flex-direction: column;
+    align-items: stretch;
+    position: static;
+  }
+
+  .dashboard-scope .indices-container {
+    flex: 1 1 auto;
+    border-right: none;
+    border-bottom: 1px solid var(--db-border);
+    padding: 12px 16px;
+    gap: 20px;
+  }
+
+  .dashboard-scope .menu-container {
+    padding: 8px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .dashboard-scope .menus {
+    flex-wrap: wrap;
+  }
+
+  .dashboard-scope .menus ul {
+    flex-wrap: wrap;
+  }
+
+  .dashboard-scope .dashboard-container {
+    flex-direction: column;
+  }
+
+  .dashboard-scope .watchlist-container {
+    flex: 1 1 auto;
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid var(--db-border);
+  }
+
+  .dashboard-scope .content {
+    min-height: auto;
+  }
+
+  .dashboard-scope .row {
+    flex-direction: column;
+  }
+
+  .dashboard-scope .data {
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 520px) {
+  .dashboard-scope .content {
+    padding: 16px;
+  }
+
+  .dashboard-scope .brand span.brand-text {
+    display: none;
+  }
+
+  .dashboard-scope .profile .username {
+    display: none;
+  }
+
+  .dashboard-scope .order-table {
+    overflow-x: auto;
+  }
+
+  .dashboard-scope .order-table table {
+    min-width: 640px;
+  }
 }

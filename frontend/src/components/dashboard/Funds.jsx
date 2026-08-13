@@ -19,7 +19,7 @@ const Funds = () => {
     }
   };
 
-  if (!funds) return <h3>Loading...</h3>;
+  if (!funds) return <h3 className="title">Loading...</h3>;
 
   return (
     <>

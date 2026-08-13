@@ -29,7 +29,7 @@ const Holdings = () => {
             {
                 label: "Stock Price",
                 data: allHoldings.map((stock) => stock.price),
-                backgroundColor: "rgba(255, 99, 132, 0.5)",
+                backgroundColor: "rgba(37, 99, 235, 0.75)",
             }
         ]
     };
@@ -125,7 +125,9 @@ const Holdings = () => {
                     <p>P&L</p>
                 </div>
             </div>
-            <VerticalGraph data={data} />
+            <div className="chart-panel">
+                <VerticalGraph data={data} />
+            </div>
         </>
     );
 };

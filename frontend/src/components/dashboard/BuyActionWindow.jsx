@@ -43,29 +43,44 @@ const BuyActionWindow = ({ stock }) => {
     };
 
     return (
-        <div className="container" id="buy-window">
-            <div className="regular-order">
-                <h3> {stock?.name} </h3>
-                <div className="inputs">
-                    <fieldset>
-                        <legend> Qty. </legend>
-                        <input type="number" value={stockQuantity} onChange={(e) =>setStockQuantity(e.target.value)}/>
-                    </fieldset>
-                    <fieldset>
-                        <legend> Price </legend>
-                        <input type="number" value={stockPrice} onChange={(e) =>setStockPrice(e.target.value)}/>
-                    </fieldset>
+        <div className="order-window-overlay" onClick={generalContext.closeBuyWindow}>
+            <div className="container" id="buy-window" onClick={(e) => e.stopPropagation()}>
+                <div className="order-header">
+                    <div className="order-header-title">
+                        <span className="order-mode-badge buy-mode">Buy</span>
+                        <h3> {stock?.name} </h3>
+                    </div>
+                    <button
+                        type="button"
+                        className="order-close-btn"
+                        aria-label="Close"
+                        onClick={generalContext.closeBuyWindow}
+                    >
+                        ✕
+                    </button>
                 </div>
-            </div>
-            <div className="buttons">
-                <span> Margin required ₹140.65 </span>
-                <div>
-                    <Link className="btn btn-blue" onClick={handleBuyClick}>
-                        Buy
-                    </Link>
-                    <Link className="btn btn-grey" onClick={generalContext.closeBuyWindow}> 
-                        Cancel 
-                    </Link>
+                <div className="regular-order">
+                    <div className="inputs">
+                        <fieldset>
+                            <legend> Qty. </legend>
+                            <input type="number" value={stockQuantity} onChange={(e) =>setStockQuantity(e.target.value)}/>
+                        </fieldset>
+                        <fieldset>
+                            <legend> Price </legend>
+                            <input type="number" value={stockPrice} onChange={(e) =>setStockPrice(e.target.value)}/>
+                        </fieldset>
+                    </div>
+                </div>
+                <div className="buttons">
+                    <span> Margin required ₹140.65 </span>
+                    <div>
+                        <Link className="btn btn-blue" onClick={handleBuyClick}>
+                            Buy
+                        </Link>
+                        <Link className="btn btn-grey" onClick={generalContext.closeBuyWindow}> 
+                            Cancel 
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

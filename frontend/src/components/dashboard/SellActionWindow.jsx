@@ -43,37 +43,52 @@ if (stockPrice <= 0) {
   };
 
   return (
-    <div className="container" id="buy-window">
-      <div className="regular-order">
-        <h3>{stock?.name}</h3>
-        <div className="inputs">
-          <fieldset>
-            <legend>Qty.</legend>
-            <input type="number" value={stockQuantity}
-              onChange={(e) =>
-                setStockQuantity(e.target.value)
-              }
-            />
-          </fieldset>
-          <fieldset>
-            <legend>Price</legend>
-            <input type="number" value={stockPrice}
-              onChange={(e) =>
-                setStockPrice(e.target.value)
-              }
-            />
-          </fieldset>
+    <div className="order-window-overlay" onClick={generalContext.closeSellWindow}>
+      <div className="container" id="buy-window" onClick={(e) => e.stopPropagation()}>
+        <div className="order-header">
+          <div className="order-header-title">
+            <span className="order-mode-badge sell-mode">Sell</span>
+            <h3>{stock?.name}</h3>
+          </div>
+          <button
+            type="button"
+            className="order-close-btn"
+            aria-label="Close"
+            onClick={generalContext.closeSellWindow}
+          >
+            ✕
+          </button>
         </div>
-      </div>
-      <div className="buttons">
-        <span>Amount ₹{stockQuantity * stockPrice}</span>
-        <div>
-          <Link className="btn btn-blue" onClick={handleSellClick}>
-            Sell
-          </Link>
-          <Link className="btn btn-grey" onClick={generalContext.closeSellWindow}>
-            Cancel
-          </Link>
+        <div className="regular-order">
+          <div className="inputs">
+            <fieldset>
+              <legend>Qty.</legend>
+              <input type="number" value={stockQuantity}
+                onChange={(e) =>
+                  setStockQuantity(e.target.value)
+                }
+              />
+            </fieldset>
+            <fieldset>
+              <legend>Price</legend>
+              <input type="number" value={stockPrice}
+                onChange={(e) =>
+                  setStockPrice(e.target.value)
+                }
+              />
+            </fieldset>
+          </div>
+        </div>
+        <div className="buttons">
+          <span>Amount ₹{stockQuantity * stockPrice}</span>
+          <div>
+            <Link className="btn btn-blue" onClick={handleSellClick}>
+              Sell
+            </Link>
+            <Link className="btn btn-grey" onClick={generalContext.closeSellWindow}>
+              Cancel
+            </Link>
+          </div>
         </div>
       </div>
     </div>

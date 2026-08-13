@@ -1,16 +1,28 @@
-.dashboard-scope .container {
-  --radius: 4px;
-  width: 40%;
-  height: 63%;
-  background: rgb(245, 245, 245);
-  position: absolute;
-  bottom: 0;
-  left: 35%;
-  cursor: move;
-  box-sizing: border-box;
+/* =========================================================================
+   Buy / Sell order modal
+   ========================================================================= */
+
+.dashboard-scope .order-window-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 100;
+  padding: 20px;
+}
+
+.dashboard-scope .container {
+  --radius: 12px;
+  width: 100%;
+  max-width: 380px;
+  background: #fff;
+  box-sizing: border-box;
   border-radius: var(--radius);
-  border: 1px solid rgb(238, 238, 238);
+  border: 1px solid var(--db-border, #e2e8f0);
+  box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.15), 0 4px 6px -4px rgba(15, 23, 42, 0.1);
+  overflow: hidden;
 }
 
 .dashboard-scope .dragging {
@@ -19,37 +31,93 @@
 
 .dashboard-scope .container .header {
   width: 100%;
-  background: #4184f3;
   box-sizing: border-box;
-  padding: 16px;
+  padding: 16px 20px;
   border-top-left-radius: var(--radius);
   border-top-right-radius: var(--radius);
 }
 
+.dashboard-scope .order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--db-border, #e2e8f0);
+}
+
+.dashboard-scope .order-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboard-scope .order-mode-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 999px;
+}
+
+.dashboard-scope .order-mode-badge.buy-mode {
+  background: var(--db-primary-light, #eff6ff);
+  color: var(--db-primary, #2563eb);
+}
+
+.dashboard-scope .order-mode-badge.sell-mode {
+  background: var(--db-danger-light, #fef2f2);
+  color: var(--db-danger, #dc2626);
+}
+
 .dashboard-scope .header h3 {
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 6px;
+  color: var(--db-text, #0f172a);
+  font-size: 1.02rem;
+  font-weight: 700;
+  margin: 0;
 }
 
 .dashboard-scope .header h3 span {
   font-size: 0.6rem;
 }
 
+.dashboard-scope .order-close-btn {
+  border: none;
+  background: transparent;
+  color: var(--db-text-muted, #94a3b8);
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.dashboard-scope .order-close-btn:hover {
+  background: var(--db-bg-hover, #f1f5f9);
+  color: var(--db-text, #0f172a);
+}
+
 .dashboard-scope .market-options {
-  font-weight: 300;
-  color: #fff;
+  font-weight: 500;
+  color: var(--db-text, #0f172a);
   font-size: 0.8rem;
 }
 
-.dashboard-scope .market-options label, .dashboard-scope .order-validity label input, .dashboard-scope .sub-order-type label, .dashboard-scope .sub-order-type label input, .dashboard-scope .stop-loss-type label, .dashboard-scope .stop-loss-type label input {
+.dashboard-scope .market-options label,
+.dashboard-scope .order-validity label input,
+.dashboard-scope .sub-order-type label,
+.dashboard-scope .sub-order-type label input,
+.dashboard-scope .stop-loss-type label,
+.dashboard-scope .stop-loss-type label input {
   margin-right: 6px;
   cursor: pointer;
 }
 
 .dashboard-scope .market-options input[type="radio"] {
-  border: 1px solid #ddd;
+  border: 1px solid var(--db-border, #ddd);
   cursor: pointer;
   padding: 2px;
   margin-right: 6px;
@@ -58,7 +126,7 @@
 .dashboard-scope .tab {
   width: 100%;
   box-sizing: border-box;
-  background-color: #f9f9f9;
+  background-color: var(--db-bg-subtle, #f9f9f9);
   border-bottom: 2px solid rgba(180, 180, 180, 0.6);
 }
 
@@ -66,16 +134,15 @@
   border: none;
   padding: 14px 16px;
   background: transparent;
-  color: #4184f3;
-  font-weight: 400;
+  color: var(--db-primary, #2563eb);
+  font-weight: 500;
   font-size: 0.8rem;
   cursor: pointer;
 }
 
 .dashboard-scope .regular-order {
-  padding: 16px 26px;
+  padding: 20px 24px 8px;
   background-color: #fff;
-  padding-bottom: 30px;
 }
 
 .dashboard-scope .regular-order label {
@@ -91,42 +158,59 @@
 }
 
 .dashboard-scope .order-validity label span {
-  color: rgb(190, 190, 190);
+  color: var(--db-text-muted, #94a3b8);
 }
 
 .dashboard-scope .inputs {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 16px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-top: 4px;
+  margin-bottom: 8px;
 }
 
 .dashboard-scope .inputs fieldset {
-  max-width: 120px;
+  flex: 1;
+  max-width: none;
   box-sizing: border-box;
-  border: 0.7px solid #ddd;
-  margin-right: 8px;
+  border: 1px solid var(--db-border, #e2e8f0);
+  border-radius: 8px;
+  margin-right: 0;
+  transition: border-color 0.12s ease;
+}
+
+.dashboard-scope .inputs fieldset:focus-within {
+  border-color: var(--db-primary, #2563eb);
 }
 
 .dashboard-scope .inputs fieldset legend {
-  margin-left: 10px;
-  font-size: 0.8rem;
+  margin-left: 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--db-text-muted, #94a3b8);
   padding: 0 4px;
 }
 
 .dashboard-scope .inputs fieldset:last-of-type legend {
-  color: #ddd;
+  color: var(--db-text-muted, #94a3b8);
 }
 
 .dashboard-scope .inputs fieldset input {
   border: none;
-  margin-right: 8px;
-  max-width: 130px;
-  min-height: 35px;
-  padding: 0 12px;
+  width: 100%;
+  margin-right: 0;
+  max-width: none;
+  min-height: 34px;
+  padding: 0 12px 8px;
   box-sizing: border-box;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--db-text, #0f172a);
+  background: transparent;
+  font-variant-numeric: tabular-nums;
 }
 
 .dashboard-scope .options {
@@ -138,7 +222,7 @@
 }
 
 .dashboard-scope .options span {
-  color: #4184f3;
+  color: var(--db-primary, #2563eb);
   font-size: 0.8rem;
   cursor: pointer;
 }
@@ -150,30 +234,41 @@
   align-items: center;
   justify-content: space-between;
   position: relative;
-  top: 10%;
-  padding: 0 20px;
+  top: 0;
+  padding: 16px 24px 22px;
+  border-top: 1px solid var(--db-border, #e2e8f0);
+  margin-top: 12px;
 }
 
 .dashboard-scope .buttons span {
   font-size: 0.8rem;
+  color: var(--db-text-secondary, #64748b);
+  font-weight: 500;
 }
 
 .dashboard-scope .btn {
   text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 2px;
+  padding: 9px 20px;
+  border-radius: 6px;
   color: #fff;
   margin-right: 2px;
   margin-left: 2px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .dashboard-scope .btn-grey {
-  background: #d4d4d4;
-  color: #666666;
+  background: #fff;
+  color: var(--db-text-secondary, #64748b);
+  border-color: var(--db-border-strong, #cbd5e1);
 }
 
 .dashboard-scope .btn-blue {
-  background: #4184f3;
+  background: var(--db-primary, #2563eb);
+  border-color: var(--db-primary, #2563eb);
 }
 
 /* sudo selectors */
@@ -183,17 +278,7 @@
   height: 3px;
   display: none;
   margin-top: 10px;
-  background-color: #4184f3;
-}
-
-.dashboard-scope .inputs fieldset:focus {
-  outline: none;
-  border: 0.7px solid rgb(49, 49, 49);
-  border-radius: 2px;
-}
-
-.dashboard-scope .inputs fieldset input:focus {
-  outline: none;
+  background-color: var(--db-primary, #2563eb);
 }
 
 .dashboard-scope .inputs fieldset input:focus {
@@ -206,10 +291,11 @@
 }
 
 .dashboard-scope .btn-blue:hover {
-  background: #74a7fa;
+  background: var(--db-primary-hover, #1d4ed8);
+  border-color: var(--db-primary-hover, #1d4ed8);
 }
 
 .dashboard-scope .btn-grey:hover {
-  background: #9b9b9b;
-  color: #fff;
+  background: var(--db-bg-hover, #f1f5f9);
+  color: var(--db-text, #0f172a);
 }

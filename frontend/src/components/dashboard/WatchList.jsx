@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import api from "../../api";
 import GeneralContext from "./GeneralContext";
 import { Tooltip, Grow } from "@mui/material";
-import { BarChartOutlined, KeyboardArrowDown, KeyboardArrowUp, MoreHoriz,} from "@mui/icons-material";
+import { BarChartOutlined, KeyboardArrowDown, KeyboardArrowUp, MoreHoriz, SearchOutlined,} from "@mui/icons-material";
 import { DoughnutChart } from "./DoughnoutChart";
 
 const WatchList = () => {
   const [watchlist, setWatchlist] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchWatchlist = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/api/stocks/watchlist");
+        const response = await api.get("/api/stocks/watchlist");
         console.log("LIVE STOCK DATA", response.data);
         setWatchlist(response.data);
       }
@@ -20,57 +21,66 @@ const WatchList = () => {
 
     fetchWatchlist();
 
-    const interval = setInterval(fetchWatchlist, 15000);
-    return () => clearInterval(interval);
-  }, []);
+    const interval = setInterval(fetchWatchlist, 30000);
+      return () => clearInterval(interval);
+    }, []);
 
-  const labels = watchlist.map(
-    (stock) => stock.name
-  );
+    const labels = watchlist.map(
+      (stock) => stock.name
+    );
 
-  const data = {labels, datasets: [
-      {
-        label: "Price",
-        data: watchlist.map((stock) => stock.price),
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.5)",
-          "rgba(54, 162, 235, 0.5)",
-          "rgba(255, 206, 86, 0.5)",
-          "rgba(75, 192, 192, 0.5)",
-          "rgba(153, 102, 255, 0.5)",
-          "rgba(255, 159, 64, 0.5)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
+    const data = {labels, datasets: [
+        {
+          label: "Price",
+          data: watchlist.map((stock) => stock.price),
+          backgroundColor: [
+            "rgba(37, 99, 235, 0.85)",
+            "rgba(96, 165, 250, 0.85)",
+            "rgba(148, 163, 184, 0.85)",
+            "rgba(30, 64, 175, 0.85)",
+            "rgba(191, 219, 254, 0.85)",
+            "rgba(100, 116, 139, 0.85)",
+          ],
+          borderColor: "#ffffff",
+          borderWidth: 2,
+        },
+      ],
+    };
+
+    const filteredWatchlist = search.trim()
+    ? watchlist.filter((stock) =>
+        stock.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : watchlist.slice(0, 6);
 
   return (
 
     <div className="watchlist-container">
       <div className="search-container">
-        <input type="text" name="search" id="search" placeholder="Search eg:infy, bse, nifty fut weekly, gold mcx" className="search"/>
+        <SearchOutlined className="search-icon" />
+        <input
+          type="text"
+          name="search"
+          id="search"
+          placeholder="Search stocks..."
+          className="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <span className="counts">
           {watchlist.length} / 50
         </span>
       </div>
       <ul className="list">
-        {
-          watchlist.map((stock, index) => (
-            <WatchListItem stock={stock} key={index}/>
-          ))
-        }
+        {filteredWatchlist.map((stock, index) => (
+          <WatchListItem stock={stock} key={index} />
+        ))}
       </ul>
 
-      <DoughnutChart data={data} />
+      <div className="watchlist-chart">
+        <p className="panel-label">Watchlist distribution</p>
+        <DoughnutChart data={data} />
+      </div>
     </div>
   );
 };
