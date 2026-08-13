@@ -43,7 +43,7 @@ const Menu = () => {
           <li>
             <Link style={{ textDecoration: "none" }} to="/dashboard" onClick={() => handleMenuClick(0)}>
               <p className={selectedMenu === 0 ? activeMenuClass : menuClass}>
-                <SpaceDashboardOutlined className="nav-icon" />
+                <SpaceDashboardOutlined className="nav-icon" fontSize="small" />
                 Dashboard
               </p>
             </Link>
@@ -51,7 +51,7 @@ const Menu = () => {
           <li>
             <Link style={{ textDecoration: "none" }} to="/dashboard/orders" onClick={() => handleMenuClick(1)}>
               <p className={selectedMenu === 1 ? activeMenuClass : menuClass}>
-                <ReceiptLongOutlined className="nav-icon" />
+                <ReceiptLongOutlined className="nav-icon" fontSize="small" />
                 Orders
               </p>
             </Link>
@@ -59,7 +59,7 @@ const Menu = () => {
           <li>
             <Link style={{ textDecoration: "none" }} to="/dashboard/holdings" onClick={() => handleMenuClick(2)}>
               <p className={selectedMenu === 2 ? activeMenuClass : menuClass}>
-                <AccountBalanceWalletOutlined className="nav-icon" />
+                <AccountBalanceWalletOutlined className="nav-icon" fontSize="small" />
                 Holdings
               </p>
             </Link>
@@ -67,7 +67,7 @@ const Menu = () => {
           <li>
             <Link style={{ textDecoration: "none" }} to="/dashboard/positions" onClick={() => handleMenuClick(3)}>
               <p className={selectedMenu === 3 ? activeMenuClass : menuClass}>
-                <SsidChartOutlined className="nav-icon" />
+                <SsidChartOutlined className="nav-icon" fontSize="small" />
                 Positions
               </p>
             </Link>
@@ -75,7 +75,7 @@ const Menu = () => {
           <li>
             <Link style={{ textDecoration: "none" }} to="/dashboard/funds" onClick={() => handleMenuClick(4)}>
               <p className={selectedMenu === 4 ? activeMenuClass : menuClass}>
-                <PaymentsOutlined className="nav-icon" />
+                <PaymentsOutlined className="nav-icon" fontSize="small" />
                 Funds
               </p>
             </Link>

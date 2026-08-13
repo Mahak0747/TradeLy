@@ -1,78 +1,71 @@
-/* =========================================================================
-   Buy / Sell order modal
-   ========================================================================= */
-
 .dashboard-scope .order-window-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
+  background: rgba(20, 20, 20, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
-  padding: 20px;
+  padding: 16px;
 }
 
 .dashboard-scope .container {
-  --radius: 12px;
+  --radius: 8px;
   width: 100%;
-  max-width: 380px;
+  max-width: 360px;
   background: #fff;
   box-sizing: border-box;
   border-radius: var(--radius);
-  border: 1px solid var(--db-border, #e2e8f0);
-  box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.15), 0 4px 6px -4px rgba(15, 23, 42, 0.1);
+  border: 1px solid var(--db-border, #e4e7eb);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
   overflow: hidden;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
 }
 
 .dashboard-scope .dragging {
   opacity: 0;
 }
 
-.dashboard-scope .container .header {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 16px 20px;
-  border-top-left-radius: var(--radius);
-  border-top-right-radius: var(--radius);
-}
-
 .dashboard-scope .order-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 24px;
-  border-bottom: 1px solid var(--db-border, #e2e8f0);
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--db-border, #e4e7eb);
+  position: sticky;
+  top: 0;
+  background: #fff;
 }
 
 .dashboard-scope .order-header-title {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
 }
 
 .dashboard-scope .order-mode-badge {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  padding: 4px 9px;
-  border-radius: 999px;
+  padding: 3px 8px;
+  border-radius: 3px;
 }
 
 .dashboard-scope .order-mode-badge.buy-mode {
-  background: var(--db-primary-light, #eff6ff);
-  color: var(--db-primary, #2563eb);
+  background: var(--db-primary-light, #eaf1fe);
+  color: var(--db-primary, #4184f3);
 }
 
 .dashboard-scope .order-mode-badge.sell-mode {
-  background: var(--db-danger-light, #fef2f2);
-  color: var(--db-danger, #dc2626);
+  background: var(--db-danger-light, #fdecea);
+  color: var(--db-danger, #e4483b);
 }
 
 .dashboard-scope .header h3 {
-  color: var(--db-text, #0f172a);
-  font-size: 1.02rem;
+  color: var(--db-text, #262626);
+  font-size: 1rem;
   font-weight: 700;
   margin: 0;
 }
@@ -84,25 +77,26 @@
 .dashboard-scope .order-close-btn {
   border: none;
   background: transparent;
-  color: var(--db-text-muted, #94a3b8);
+  color: var(--db-text-muted, #9b9b9b);
   cursor: pointer;
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.12s ease, color 0.12s ease;
+  font-size: 0.9rem;
 }
 
 .dashboard-scope .order-close-btn:hover {
-  background: var(--db-bg-hover, #f1f5f9);
-  color: var(--db-text, #0f172a);
+  background: var(--db-bg-hover, #f0f2f5);
+  color: var(--db-text, #262626);
 }
 
 .dashboard-scope .market-options {
   font-weight: 500;
-  color: var(--db-text, #0f172a);
+  color: var(--db-text, #262626);
   font-size: 0.8rem;
 }
 
@@ -126,7 +120,7 @@
 .dashboard-scope .tab {
   width: 100%;
   box-sizing: border-box;
-  background-color: var(--db-bg-subtle, #f9f9f9);
+  background-color: var(--db-bg-subtle, #f7f8fa);
   border-bottom: 2px solid rgba(180, 180, 180, 0.6);
 }
 
@@ -134,14 +128,14 @@
   border: none;
   padding: 14px 16px;
   background: transparent;
-  color: var(--db-primary, #2563eb);
+  color: var(--db-primary, #4184f3);
   font-weight: 500;
   font-size: 0.8rem;
   cursor: pointer;
 }
 
 .dashboard-scope .regular-order {
-  padding: 20px 24px 8px;
+  padding: 18px 20px 6px;
   background-color: #fff;
 }
 
@@ -158,44 +152,44 @@
 }
 
 .dashboard-scope .order-validity label span {
-  color: var(--db-text-muted, #94a3b8);
+  color: var(--db-text-muted, #9b9b9b);
 }
 
 .dashboard-scope .inputs {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-top: 4px;
-  margin-bottom: 8px;
+  gap: 10px;
+  margin-top: 2px;
+  margin-bottom: 6px;
 }
 
 .dashboard-scope .inputs fieldset {
   flex: 1;
   max-width: none;
   box-sizing: border-box;
-  border: 1px solid var(--db-border, #e2e8f0);
-  border-radius: 8px;
+  border: 1px solid var(--db-border, #e4e7eb);
+  border-radius: 6px;
   margin-right: 0;
   transition: border-color 0.12s ease;
 }
 
 .dashboard-scope .inputs fieldset:focus-within {
-  border-color: var(--db-primary, #2563eb);
+  border-color: var(--db-primary, #4184f3);
 }
 
 .dashboard-scope .inputs fieldset legend {
   margin-left: 8px;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--db-text-muted, #94a3b8);
+  color: var(--db-text-muted, #9b9b9b);
   padding: 0 4px;
 }
 
 .dashboard-scope .inputs fieldset:last-of-type legend {
-  color: var(--db-text-muted, #94a3b8);
+  color: var(--db-text-muted, #9b9b9b);
 }
 
 .dashboard-scope .inputs fieldset input {
@@ -203,12 +197,12 @@
   width: 100%;
   margin-right: 0;
   max-width: none;
-  min-height: 34px;
-  padding: 0 12px 8px;
+  min-height: 32px;
+  padding: 0 10px 7px;
   box-sizing: border-box;
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: var(--db-text, #0f172a);
+  color: var(--db-text, #262626);
   background: transparent;
   font-variant-numeric: tabular-nums;
 }
@@ -222,7 +216,7 @@
 }
 
 .dashboard-scope .options span {
-  color: var(--db-primary, #2563eb);
+  color: var(--db-primary, #4184f3);
   font-size: 0.8rem;
   cursor: pointer;
 }
@@ -233,27 +227,29 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
   position: relative;
   top: 0;
-  padding: 16px 24px 22px;
-  border-top: 1px solid var(--db-border, #e2e8f0);
-  margin-top: 12px;
+  padding: 14px 20px 20px;
+  border-top: 1px solid var(--db-border, #e4e7eb);
+  margin-top: 10px;
 }
 
 .dashboard-scope .buttons span {
-  font-size: 0.8rem;
-  color: var(--db-text-secondary, #64748b);
+  font-size: 0.78rem;
+  color: var(--db-text-secondary, #737373);
   font-weight: 500;
 }
 
 .dashboard-scope .btn {
   text-decoration: none;
-  padding: 9px 20px;
-  border-radius: 6px;
+  padding: 8px 18px;
+  border-radius: 4px;
   color: #fff;
   margin-right: 2px;
   margin-left: 2px;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   border: 1px solid transparent;
@@ -262,13 +258,13 @@
 
 .dashboard-scope .btn-grey {
   background: #fff;
-  color: var(--db-text-secondary, #64748b);
-  border-color: var(--db-border-strong, #cbd5e1);
+  color: var(--db-text-secondary, #737373);
+  border-color: var(--db-border-strong, #cfd4db);
 }
 
 .dashboard-scope .btn-blue {
-  background: var(--db-primary, #2563eb);
-  border-color: var(--db-primary, #2563eb);
+  background: var(--db-primary, #4184f3);
+  border-color: var(--db-primary, #4184f3);
 }
 
 /* sudo selectors */
@@ -278,7 +274,7 @@
   height: 3px;
   display: none;
   margin-top: 10px;
-  background-color: var(--db-primary, #2563eb);
+  background-color: var(--db-primary, #4184f3);
 }
 
 .dashboard-scope .inputs fieldset input:focus {
@@ -291,11 +287,28 @@
 }
 
 .dashboard-scope .btn-blue:hover {
-  background: var(--db-primary-hover, #1d4ed8);
-  border-color: var(--db-primary-hover, #1d4ed8);
+  background: var(--db-primary-hover, #2f6fe0);
+  border-color: var(--db-primary-hover, #2f6fe0);
 }
 
 .dashboard-scope .btn-grey:hover {
-  background: var(--db-bg-hover, #f1f5f9);
-  color: var(--db-text, #0f172a);
+  background: var(--db-bg-hover, #f0f2f5);
+  color: var(--db-text, #262626);
+}
+
+@media (max-width: 420px) {
+  .dashboard-scope .buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dashboard-scope .buttons > div {
+    display: flex;
+    gap: 8px;
+  }
+
+  .dashboard-scope .buttons > div .btn {
+    flex: 1;
+    margin: 0;
+  }
 }
