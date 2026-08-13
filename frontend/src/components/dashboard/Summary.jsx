@@ -26,11 +26,13 @@ const Summary = () => {
   }, []);
 
   const investment = holdings.reduce(
-    (sum, stock) => sum + stock.avg * stock.qty,0
+      (sum, stock) => sum + stock.avg * stock.qty,
+      0
   );
 
   const currentValue = holdings.reduce(
-    (sum, stock) => sum + stock.price * stock.qty,0
+      (sum, stock) => sum + stock.price * stock.qty,
+      0
   );
 
   const pnl = currentValue - investment;

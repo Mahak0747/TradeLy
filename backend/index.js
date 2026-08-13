@@ -4,11 +4,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-// const dns = require("dns");
-const YahooFinance = require("yahoo-finance2").default;
+const dns = require("dns");
 
-// dns.setServers(["1.1.1.1", "8.8.8.8"]);
-const yahooFinance = new YahooFinance();
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
+const {
+    fetchQuote,
+    fetchIndices
+} = require("./services/yahooService");
 
 
 const app = express();
@@ -48,23 +51,16 @@ const { FundsModel } = require("./model/FundsModel");
 
 app.get("/marketIndices", async (req, res) => {
     try {
-        const nifty = await yahooFinance.quote("^NSEI");
-        const sensex = await yahooFinance.quote("^BSESN");
-        res.json({
-            nifty: {
-                price: nifty.regularMarketPrice,
-                change: nifty.regularMarketChange,
-                percent: nifty.regularMarketChangePercent
-            },
-            sensex: {
-                price: sensex.regularMarketPrice,
-                change: sensex.regularMarketChange,
-                percent: sensex.regularMarketChangePercent
-            }
+        const indices = await fetchIndices();
+
+        res.json(indices);
+
+    } catch (err) {
+        console.log("MARKET INDICES ERROR:", err.message);
+
+        res.status(500).json({
+            error: err.message
         });
-    }
-    catch (err) {
-        res.status(500).json({error: err.message});
     }
 });
 
@@ -115,7 +111,7 @@ app.get("/allHoldings", authMiddleware, async (req, res) => {
         const updated = await Promise.all(
             holdings.map(async (stock) => {
                 try {
-                    const quote = await yahooFinance.quote(`${stock.name}.NS`);
+                    const quote = await fetchQuote(`${stock.name}.NS`);
                     const price = quote.regularMarketPrice || stock.price || 0;
                     const curValue = price * stock.qty;
                     const profit = curValue - stock.avg * stock.qty;
@@ -160,7 +156,7 @@ app.get("/allPositions", authMiddleware, async (req, res) => {
         const updated = await Promise.all(
             positions.map(async (stock) => {
                 try {
-                    const quote = await yahooFinance.quote(`${stock.name}.NS`);
+                    const quote = await fetchQuote(`${stock.name}.NS`);
                     const price = quote.regularMarketPrice || stock.price;
                     return {
                         ...stock.toObject(),

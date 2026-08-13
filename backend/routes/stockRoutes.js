@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const YahooFinance = require("yahoo-finance2").default;
+const {
+  fetchWatchlist
+} = require("../services/yahooService");
 
-// create instance
-const yahooFinance = new YahooFinance();
 const symbols = [
     "RELIANCE.NS",
     "TCS.NS",
@@ -59,44 +59,16 @@ const symbols = [
 
 router.get("/watchlist", async (req, res) => {
   try {
-    const stocks = await Promise.all(
-      symbols.map(async (symbol) => {
-        try {
-          const quote = await yahooFinance.quote(symbol);
+    const stocks = await fetchWatchlist();
 
-          if (!quote) {
-            console.log(`No quote returned for: ${symbol}`);
-            return null;
-          }
+    res.json(stocks);
 
-          return {
-            name: symbol.replace(".NS", ""),
-            price: Number(quote.regularMarketPrice || 0),
-            percent:
-              quote.regularMarketChangePercent != null
-                ? quote.regularMarketChangePercent.toFixed(2) + "%"
-                : "0.00%",
-            isDown: (quote.regularMarketChangePercent || 0) < 0,
-          };
-        } catch (error) {
-          console.log(`Failed to fetch ${symbol}:`, error.message);
-          return null;
-        }
-      })
-    );
-
-    const validStocks = stocks.filter(Boolean);
-
-    console.log(
-      `Yahoo returned ${validStocks.length}/${symbols.length} stocks`
-    );
-
-    console.log("Yahoo Data:", validStocks);
-
-    res.json(validStocks);
   } catch (err) {
-    console.log("YAHOO ERROR:", err);
-    res.status(500).json({ error: err.message });
+    console.log("WATCHLIST ERROR:", err.message);
+
+    res.status(500).json({
+      error: err.message
+    });
   }
 });
 
