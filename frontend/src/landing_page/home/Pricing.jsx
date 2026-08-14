@@ -4,10 +4,9 @@ function Pricing() {
     <div className="container">
       <div className="row">
         <div className="col-4">
-          <h1 className="mb-3 fs-2">Unbeatable pricing</h1>
+          <h1 className="mb-3 fs-2">Simple and transparent</h1>
           <p>
-            We pioneered the concept of discount broking and price transparency
-            in India. Flat fees and no hidden charges.
+            Explore the platform with straightforward pricing information and no unnecessary complexity.
           </p>
           <a href="" style={{ textDecoration: "none" }}>
             See Pricing{" "}
@@ -18,16 +17,20 @@ function Pricing() {
         <div className="col-6  mb-5">
           <div className="row text-center">
             <div className="col p-3 border">
-              <h1 className="mb-3">₹0</h1>
+              <h1 className="mb-3">Free</h1>
               <p>
-                Free equity delivery and
+                Explore markets
                 <br />
-                direct mutual funds
+                Track your portfolio
               </p>
             </div>
             <div className="col p-3 border">
-              <h1 className="mb-3">₹20</h1>
-              <p>Intraday and F&O</p>
+              <h1 className="mb-3">Demo</h1>
+              <p>
+                Simulated trading
+                <br />
+                Practice without real money
+              </p>
             </div>
           </div>
         </div>

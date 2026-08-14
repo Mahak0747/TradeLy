@@ -7,35 +7,34 @@ function Awards() {
           <img src="media/images/largestBroker.svg" />
         </div>
         <div className="col-6 p-5 mt-5">
-          <h1>Largest stock broker in India</h1>
+          <h1>Everything you need to explore the market</h1>
           <p className="mb-5">
-            2+ million Zerodha clients contribute to over 15% of all retail
-            order volumes in India daily by trading and investing in:
+            Track market movements, explore opportunities, and manage your investments from one place
           </p>
           <div className="row">
             <div className="col-6">
               <ul>
                 <li>
-                  <p>Futures and Options</p>
+                  <p>Stocks & ETFs</p>
+                </li>           
+                <li>
+                  <p>Market Indices</p>
                 </li>
                 <li>
-                  <p>Commodity derivatives</p>
-                </li>
-                <li>
-                  <p>Currency derivatives</p>
+                  <p>Intraday Trading</p>
                 </li>
               </ul>
             </div>
             <div className="col-6">
               <ul>
                 <li>
-                  <p>Stocks & IPOs</p>
+                  <p>Portfolio Tracking</p>
                 </li>
                 <li>
-                  <p>Direct mutual funds</p>
+                  <p>Market Insights</p>
                 </li>
                 <li>
-                  <p>Bonds and Govt. Securities</p>
+                  <p>Order Management</p>
                 </li>
               </ul>
             </div>

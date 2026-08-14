@@ -4,29 +4,34 @@ function Hero() {
   return (
     <section className="container-fluid" id="supportHero">
       <div className="p-5" id="supportWrapper">
-        <h4>Support Portal</h4>
-        <a href="">Track Tickets</a>
+        <h4>TradeLy Support</h4>
       </div>
       <div className="p-5" id="supportWrapper2">
         <div className="col-6 p-3">
           <h1 className="fs-4 mb-3">
-            Search for an answer or browse help topics to create a ticket
+            Find answers, explore the platform, or get help with a problem.
           </h1>
           <input className="mb-3" placeholder="Eg: how do i activate F&O, why is my order is getting rejected.." />
           <br />
-          <a href="">Track account opening</a>&ensp;
-          <a href="">Track segment activation</a>&ensp;
-          <a href="">Intraday margins</a>&ensp;
-          <a href="">Kite user manual</a>
+          <a href="">Getting Started</a>&ensp;
+          <a href="">Dashboard Guide</a>&ensp;
+          <a href="">Understanding Orders</a>&ensp;
+          <a href="">Managing Your Portfolio</a>
         </div>
         <div className="col-6 p-3">
           <h1 className="fs-4">Featured</h1>
           <ol>
             <li>
-              <a href="">Current Takeovers and Delisting - January 2024</a>
+              <a href="">Getting started with TradeLy</a>
             </li>
             <li>
-              <a href="">Latest Intraday leverages - MIS & CO</a>
+              <a href="">Understanding your trading dashboard</a>
+            </li>
+            <li>
+              <a href="">How live market data works</a>
+            </li>
+            <li>
+              <a href="">Managing holdings and positions</a>
             </li>
           </ol>
         </div>

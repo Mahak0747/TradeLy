@@ -4,76 +4,68 @@ function CreatsTicket() {
         <div className="container">
             <div className="row p-5 mt-5 mb-5">
                 <h1 className="fs-2 text-center">
-                    To create a ticket, select a relavant topic
+                    How can we help?
                 </h1>
                 <div className="col-4 p-5 mt-2 mb-2">
                     <h5 className="unbold">
-                        <i class="fa fa-plus-circle " aria-hidden="true"></i>&ensp;Account Opening
+                        <i class="fa fa-plus-circle " aria-hidden="true"></i>&ensp;Getting Started
                     </h5>
-                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Online Account Openeing</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Offline Account Openeing</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Company, Partnership and HUF Account Opening</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>NRI Account Opening</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Charges at Zerodha</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Zerodha IDFC FIRST Bank 3-in-1-Account</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Getting Started</a>
+                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Creating an account</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Signing in</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Navigating the dashboard</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Understanding the platform</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Getting started with TradeLy</a>
                 </div>
                 <div className="col-4 p-5 mt-2 mb-2">
                     <h5 className="">
-                        <i class="fa fa-user" aria-hidden="true"></i>&ensp;Your Zerodha Account
+                        <i class="fa fa-tachometer" aria-hidden="true"></i>&ensp;Your Dashboard
                     </h5>
-                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Login Credentials</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Account Modification and Segment Addition</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>DP ID and bank details</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Your Profile</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Transfer and conversion of shares</a>
+                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Dashboard overview</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Market indices</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Watchlist</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Holdings</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Positions</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Funds</a>
                 </div>
                 <div className="col-4 p-5 mt-2 mb-2">
                     <h5 className="">
-                        <i class="fa fa-bar-chart" aria-hidden="true"></i>&ensp;Your Zerodha Account
+                        <i class="fa fa-truck" aria-hidden="true"></i>&ensp;Orders & Trading
                     </h5>
-                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Margin/leverage, product and order types</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Kite Web and Mobile</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Trading FAQs</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Corporate Actions</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Sentinel</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Kite API</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Pi and other platforms</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Stockreports+</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>GTT</a>
+                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Placing an order</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Understanding order status</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Viewing order history</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Buy & sell workflow</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Demo trading</a>
                 </div>
                 <div className="col-4 p-5 mt-2 mb-2">
                     <h5 className="">
-                        <i class="fa fa-credit-card" aria-hidden="true"></i>&ensp;Funds
+                        <i class="fa fa-area-chart" aria-hidden="true"></i>&ensp;Portfolio
                     </h5>
-                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Adding Funds</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Fund Withdrawal</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>eMandates</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Adding Bank Accounts</a>
+                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Understanding holdings</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Tracking portfolio value</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Managing positions</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Viewing investment performance</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Portfolio overview</a>
                 </div>
                 <div className="col-4 p-5 mt-2 mb-2">
                     <h5 className="">
-                        <i class="fa fa-circle-o-notch" aria-hidden="true"></i>&ensp;Console
+                        <i class="fa fa-pie-chart" aria-hidden="true"></i>&ensp;Market Data
                     </h5>
-                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>report</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Ledger</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Portfolio</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>60 Day Challenge</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>IPO</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Referral Program</a>
+                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Live stock prices</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>NIFTY 50 & SENSEX</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Stock price updates</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Market data availability</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Understanding price changes</a>
                 </div>
                 <div className="col-4 p-5 mt-2 mb-2">
                     <h5 className="">
-                        <i class="fa fa-circle-thin" aria-hidden="true"></i>&ensp;Coin
+                        <i class="fa fa-user-o" aria-hidden="true"></i>&ensp;Account & Access
                     </h5>
-                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Understanding Mutual Funds</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>About Coin</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Buying and Selling through Coin</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Starting an SIP</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Managing your Portfolio</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Coin App</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Moving to Coin</a>
-                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Government Securities</a>
+                    <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Login issues</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Account information</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Updating profile details</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Password & authentication</a>
+                    <br /><a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>Signing out</a>
                 </div>
             </div>
         </div>

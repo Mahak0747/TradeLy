@@ -5,9 +5,7 @@ function Hero() {
     <div className="container">
       <div className="row p-5 mt-5 mb-5">
         <h1 className="fs-2 text-center">
-          We pioneered the discount broking model in India
-          <br />
-          Now, we are breaking ground with our technology.
+          A smarter way to explore the market.
         </h1>
       </div>
 
@@ -17,39 +15,25 @@ function Hero() {
       >
         <div className="col-6 p-5">
           <p>
-            We kick-started operations on the 15th of August, 2010 with the goal
-            of breaking all barriers that traders and investors face in India in
-            terms of cost, support, and technology. We named the company
-            Zerodha, a combination of Zero and "Rodha", the Sanskrit word for
-            barrier.
+            TradeLy is a personal stock-market platform built to bring market tracking, portfolio management, and trading functionality together in one simple interface.
           </p>
           <p>
-            Today, our disruptive pricing models and in-house technology have
-            made us the biggest stock broker in India.
+            The idea behind TradeLy was to create a platform that feels practical and easy to navigate while giving users a clear view of their market activity.
           </p>
           <p>
-            Over 1+ Crore clients place millions of orders every day through our
-            powerful ecosystem of investment platforms, contributing over 15% of
-            all Indian retail trading volumes.
+            From live market prices and index movements to holdings, positions, orders, and funds, the platform brings essential trading information together in one place.
           </p>
         </div>
         <div className="col-6 p-5">
           <p>
-            In addition, we run a number of popular open online educational and
-            community initiatives to empower retail traders and investors.
+            TradeLy is built as a personal project to explore how modern trading platforms work and to create a complete full-stack experience around real-time financial data.
           </p>
           <p>
-            <a href="" style={{ textDecoration: "none" }}>
-              Rainmatter
-            </a>
-            , our fintech fund and incubator, has invested in several fintech
-            startups with the goal of growing the Indian capital markets.
+            The project combines a responsive frontend, backend APIs, database integration, and live market data to create a realistic trading-platform experience.
           </p>
           <p>
-            And yet, we are always up to something new every day. Catch up on
-            the latest updates on our blog or see what the media is saying about
-            us.
-          </p>
+            Rather than focusing only on the interface, TradeLy was developed with the complete trading workflow in mind — from fetching market data to displaying portfolios and processing orders.          
+          </p>          
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ function Team() {
   return (
     <div className="container">
       <div className="row p-3 mt-5 border-top">
-        <h1 className="text-center ">People</h1>
+        <h1 className="text-center ">Behind the project</h1>
       </div>
 
       <div
@@ -13,26 +13,21 @@ function Team() {
       >
         <div className="col-6 p-3 text-center">
           <img
-            src="media/images/nithinKamath.jpg"
+            src="media/images/mahakGoswami.jpeg"
             style={{ borderRadius: "100%", width: "50%" }}
           />
-          <h4 className="mt-5">Nithin Kamath</h4>
-          <h6>Founder, CEO</h6>
+          <h4 className="mt-5">Mahak Goswami</h4>
+          <h6>Developer & Creator</h6>
         </div>
         <div className="col-6 p-3">
           <p>
-            Nithin bootstrapped and founded Zerodha in 2010 to overcome the
-            hurdles he faced during his decade long stint as a trader. Today,
-            Zerodha has changed the landscape of the Indian broking industry.
+            TradeLy was created as a hands-on project to explore full-stack development, financial APIs, real-time market data, and the design of modern trading platforms.
           </p>
           <p>
-            He is a member of the SEBI Secondary Market Advisory Committee
-            (SMAC) and the Market Data Advisory Committee (MDAC).
+            The project focuses on turning complex market information into a clean and understandable user experience while connecting the frontend, backend, database, and market-data services into a single application.
           </p>
-          <p>Playing basketball is his zen.</p>
           <p>
-            Connect on <a href="" style={{ textDecoration: "none" }}>Homepage</a> / <a href="" style={{ textDecoration: "none" }}>TradingQnA</a> /{" "}
-            <a href="" style={{ textDecoration: "none" }}>Twitter</a>
+            Connect on <a href="" style={{ textDecoration: "none" }}>Github</a> / <a href="" style={{ textDecoration: "none" }}>LinkedIn</a>
           </p>
         </div>
       </div>
