@@ -1,6 +1,4 @@
-# Interview Prep — TradeLy
-
-Project-specific questions and answers you can expect (or should be ready to bring up) when discussing TradeLy in an interview, with pointers to the exact code involved. Paired with [`docs/`](./docs) for deeper detail.
+# FAQs
 
 ---
 

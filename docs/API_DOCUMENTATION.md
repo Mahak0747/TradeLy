@@ -219,5 +219,3 @@ Places a simulated BUY or SELL order. This is the single most important endpoint
 | 401 | Missing/invalid/expired JWT, or wrong password | `{ "message": "..." }` |
 | 404 | Resource not found (e.g. user on login) | `{ "message": "..." }` |
 | 500 | Unhandled server/database/upstream error | `{ "error": "..." }` |
-
-Note the inconsistency between `message` and `error` keys across endpoints — this reflects the actual current implementation, not a documentation typo. See [`CHALLENGES_AND_SOLUTIONS.md`](./CHALLENGES_AND_SOLUTIONS.md) for context.

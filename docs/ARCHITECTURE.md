@@ -5,17 +5,17 @@
 TradeLy is a classic two-tier MERN application: a React SPA talking to a single Express API, backed by MongoDB and one external data provider (Yahoo Finance).
 
 ```
-┌────────────┐      HTTPS/JSON       ┌─────────────────────┐      Mongoose      ┌───────────┐
-│  React SPA │ ─────────────────────▶│  Express API server  │────────────────────▶│  MongoDB  │
-│  (Vite)    │◀───────────────────── │  (index.js + routes) │◀────────────────────│           │
-└────────────┘                       └──────────┬───────────┘                    └───────────┘
+┌────────────┐      HTTPS/JSON         ┌──────────────────────┐        Mongoose      ┌────────────┐
+│  React SPA │ ─────────────────────▶ │  Express API server   │────────────────────▶│   MongoDB  │
+│  (Vite)    │◀─────────────────────  │  (index.js + routes)  │◀────────────────────│            │
+└────────────┘                         └──────────┬───────────┘                      └────────────┘
                                                   │
                                                   │ yahoo-finance2
                                                   ▼
-                                       ┌─────────────────────┐
+                                       ┌───────────────────────┐
                                        │  Yahoo Finance API    │
                                        │  (live NSE quotes)    │
-                                       └─────────────────────┘
+                                       └───────────────────────┘
 ```
 
 There is no separate API gateway, message queue, or microservice split — the entire backend is one Express process (`backend/index.js`) that mounts two router modules and defines the rest of the trading endpoints inline.
@@ -41,21 +41,17 @@ All authenticated API calls go through a single shared Axios instance (`frontend
 
 ```
 backend/
-├── index.js                # app bootstrap + trading endpoints (orders, funds, holdings, positions, market indices)
+├── index.js                     # app bootstrap + trading endpoints (orders, funds, holdings, positions, market indices)
 ├── routes/
-│   ├── authRoutes.js         # POST /api/auth/signup, POST /api/auth/login
-│   └── stockRoutes.js         # GET  /api/stocks/watchlist
-├── controllers/
-│   └── authController.js      # alternate signup/login handlers (see note below)
+│   ├── authRoutes.js            # POST /api/auth/signup, POST /api/auth/login
+│   └── stockRoutes.js           # GET  /api/stocks/watchlist
 ├── middleware/
-│   └── authMiddleware.js       # verifies JWT, attaches req.user
+│   └── authMiddleware.js        # verifies JWT, attaches req.user
 ├── model/                       # Mongoose models (thin wrappers around schemas)
-├── schemas/                      # Mongoose schema definitions
+├── schemas/                     # Mongoose schema definitions
 └── services/
-    └── yahooService.js            # Yahoo Finance integration + in-memory caching
+    └── yahooService.js          # Yahoo Finance integration + in-memory caching
 ```
-
-**Note on `authController.js`:** the backend currently has two implementations of signup/login logic — one inline in `routes/authRoutes.js` (which is the one actually wired into the app and additionally seeds a default `Fund` document on signup) and a near-duplicate in `controllers/authController.js` that is not imported anywhere. `routes/authRoutes.js` is the source of truth for authentication behavior. This is flagged here for transparency, not changed, per the "no logic changes" constraint of this documentation task.
 
 ### Middleware chain
 
@@ -107,7 +103,3 @@ This is the only outbound integration in the system — there is no payment gate
 6. Frontend shows an alert, closes the modal, and does a full page reload — the dashboard re-fetches Holdings/Positions/Funds/Orders from scratch on mount
 
 Full detail: [`ORDER_TRADING_FLOW.md`](./ORDER_TRADING_FLOW.md).
-
-## 5. Why this shape?
-
-See [`TECHNICAL_DECISIONS.md`](./TECHNICAL_DECISIONS.md) for the reasoning behind the monolithic backend, the caching strategy, the reload-after-order pattern, and other choices.

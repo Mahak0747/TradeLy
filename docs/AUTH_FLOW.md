@@ -50,8 +50,6 @@ frontend:
   window.location.href = `/dashboard?token=${token}`
 ```
 
-**Why the token is also passed as a `?token=` query param on redirect:** the login handler does a hard `window.location.href` redirect (not a React Router `navigate`) to force a full reload into the dashboard shell. `AuthLoader` (mounted around the dashboard route) reads that query param on mount as a second write path for the token, then strips it from the URL via `window.history.replaceState`. In practice `localStorage.setItem` in `Login.jsx` already runs before the redirect, so this is a redundant/defensive second path — but it does mean the dashboard can also be entered directly via a `?token=` link.
-
 ## 3. Route protection (frontend)
 
 ```
@@ -100,7 +98,22 @@ Every trading endpoint (`/orders`, `/funds`, `/allHoldings`, `/allPositions`, `/
 
 ## 6. Logout
 
-`AuthContext.logout()` clears `localStorage.token` and resets in-memory state. Note: `AuthContext` is defined (`frontend/src/context/AuthContext.jsx`) but the app's actual login/route-guard flow reads `localStorage` directly rather than through this context in most places — see [`TECHNICAL_DECISIONS.md`](./TECHNICAL_DECISIONS.md) for why this is worth calling out, and [`CHALLENGES_AND_SOLUTIONS.md`](./CHALLENGES_AND_SOLUTIONS.md) for the broader "two auth code paths" note also flagged in `ARCHITECTURE.md`.
+`AuthContext.logout()` removes the JWT from `localStorage` and resets the authentication state maintained by the context.
+
+The current application primarily uses `localStorage` directly for authentication checks and route protection, while `AuthContext` provides a separate authentication-state abstraction.
+
+This means `AuthContext` is not the sole source of truth for authentication in the current implementation.
+
+### Implementation Note
+
+The project currently contains two authentication access patterns:
+
+- Direct `localStorage` access in the login/route-guard flow
+- Authentication state exposed through `AuthContext`
+
+The application currently functions with this arrangement, so it has been documented rather than refactored as part of the documentation work.
+
+A future cleanup could consolidate authentication state and token handling into a single approach to reduce duplication and improve maintainability.
 
 ## Security properties
 
