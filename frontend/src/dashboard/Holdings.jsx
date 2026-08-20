@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { VerticalGraph } from "./VerticalGraph";
-import api from "../../api";
+import api from "../api";
 
 
 const Holdings = () => {

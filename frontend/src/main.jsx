@@ -19,8 +19,8 @@ import Footer from "./landing_page/Footer";
 
 import ProtectedRoute from "./landing_page/ProtectedRoute";
 
-import DashboardHome from "./components/dashboard/Home";
-import AuthLoader from "./components/dashboard/AuthLoader";
+import DashboardHome from "./dashboard/Home";
+import AuthLoader from "./dashboard/AuthLoader";
 
 const App = () => {
   const location = useLocation();
