@@ -30,6 +30,12 @@ const Menu = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/login";
+  };
+
   const menuClass = "menu";
   const activeMenuClass = "menu selected";
 
@@ -82,10 +88,19 @@ const Menu = () => {
           </li>
         </ul>
         <hr />
-        <div className="profile" onClick={handleProfileClick}>
-          <div className="avatar"> {username.substring(0, 2).toUpperCase()} </div>
-          <p className="username">{username}</p>
-          <ExpandMore className={isProfileDropdownOpen ? "profile-caret open" : "profile-caret"} />
+        <div className="profile-wrap">
+          <div className="profile" onClick={handleProfileClick}>
+            <div className="avatar"> {username.substring(0, 2).toUpperCase()} </div>
+            <p className="username">{username}</p>
+            <ExpandMore className={isProfileDropdownOpen ? "profile-caret open" : "profile-caret"} />
+          </div>
+          {isProfileDropdownOpen && (
+            <div className="profile-dropdown">
+              <p className="profile-dropdown-item" onClick={handleLogout}>
+                Logout
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

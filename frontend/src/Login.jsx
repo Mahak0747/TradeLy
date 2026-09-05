@@ -32,7 +32,7 @@ const Login = () => {
 
       alert("Login Successful");
 
-      window.location.href = `/dashboard?token=${res.data.token}`;
+      window.location.href = "/dashboard";
     } 
     catch (err) {
       alert(

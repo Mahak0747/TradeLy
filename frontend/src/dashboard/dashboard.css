@@ -269,6 +269,39 @@
   transform: rotate(180deg);
 }
 
+.dashboard-scope .profile-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dashboard-scope .profile-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 140px;
+  background: var(--db-bg, #fff);
+  border: 1px solid var(--db-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  z-index: 20;
+}
+
+.dashboard-scope .profile-dropdown-item {
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--db-text);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.dashboard-scope .profile-dropdown-item:hover {
+  background: var(--db-bg-hover);
+  color: var(--db-primary);
+}
+
 .dashboard-scope .brand {
   display: flex;
   align-items: center;

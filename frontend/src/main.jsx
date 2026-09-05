@@ -20,7 +20,6 @@ import Footer from "./landing_page/Footer";
 import ProtectedRoute from "./landing_page/ProtectedRoute";
 
 import DashboardHome from "./dashboard/Home";
-import AuthLoader from "./dashboard/AuthLoader";
 
 const App = () => {
   const location = useLocation();
@@ -45,11 +44,9 @@ const App = () => {
         <Route
           path="/dashboard/*"
           element={
-            <AuthLoader>
-              <ProtectedRoute>
-                <DashboardHome />
-              </ProtectedRoute>
-            </AuthLoader>
+            <ProtectedRoute>
+              <DashboardHome />
+            </ProtectedRoute>
           }
         />
 
