@@ -1,94 +1,48 @@
 # Deployment
 
-> This document describes how the project is set up to be deployed based on the configuration files already present in the repo (`frontend/vercel.json`, `package.json` scripts, `.env.example` files). It does not change any of that configuration.
-
-## Overview
-
-| Component | Where it runs | Config file |
+| Component | Where | Notes |
 |---|---|---|
-| Frontend (React/Vite) | Vercel | `frontend/vercel.json` |
-| Backend (Express/Node) | Any Node host (Render, Railway, a VPS, etc.) | `backend/package.json` (`npm start` → `nodemon index.js`) |
-| Database | MongoDB (local or MongoDB Atlas) | connection string via `MONGO_URL` |
+| Frontend (React/Vite) | Vercel (or Netlify, any static host) | `frontend/vercel.json` rewrites all paths to `index.html` for client-side routing |
+| Backend (Express) | Render / Railway / any Node 20+ host | start command `npm start` (= `node index.js`) |
+| Database | MongoDB Atlas (free tier is fine) | |
 
-Live deployment referenced by the repository: **https://stocktrading-flame.vercel.app** (frontend).
+## 1. Database (Atlas)
+1. Create a cluster and a database user.
+2. **Network Access -> add `0.0.0.0/0`** (Render/Railway free tiers have no fixed IP). Without this the backend cannot connect and every data request fails.
+3. Copy the connection string and **add your database name** after the host: `mongodb+srv://USER:PASS@cluster.mongodb.net/tradely?retryWrites=true&w=majority`.
 
-## Frontend (Vercel)
+Already have data? Run the read-only checker first (see [TROUBLESHOOTING](./TROUBLESHOOTING.md)): `cd backend && npm run diagnose`.
 
-`frontend/vercel.json`:
-```json
-{
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
-```
+## 2. Backend (example: Render)
+- Root directory `backend`, build `npm install`, start `npm start`.
+- Environment: `MONGO_URL`, `JWT_SECRET` (>= 32 chars), `NODE_ENV=production`, `CORS_ORIGIN=https://<your-frontend>.vercel.app`.
+- Health check path: `/api/health` (always 200 while the process is up; the body reports `database` and market-data state).
+- Free tiers sleep when idle (30-60 s cold start). The frontend waits up to 30 s and retries GET requests twice; to avoid the delay use a paid instance or ping `/api/health` every ~10 minutes with an uptime monitor.
 
-This is a standard SPA rewrite rule — every path falls back to `index.html` so client-side routing (`react-router-dom`) works correctly on hard refreshes and direct-link navigation (e.g. a user bookmarking `/dashboard/holdings`).
+## 3. Frontend (Vercel)
+- Root directory `frontend`, framework Vite, build `npm run build`, output `dist`.
+- Environment: `VITE_API_BASE_URL=https://<your-backend-host>` (set it **before** building).
+- After the first deploy, put the final frontend URL into the backend's `CORS_ORIGIN` and redeploy the backend.
 
-**Build settings (Vercel project settings, not a file in this repo):**
-- Framework preset: Vite
-- Root directory: `frontend`
-- Build command: `npm run build` (runs `vite build`)
-- Output directory: `dist` (Vite default)
-- Install command: `npm install`
-
-**Required environment variable (set in Vercel project settings, not committed):**
-- `VITE_API_BASE_URL` — the deployed backend's base URL (e.g. `https://your-backend-host.onrender.com`)
-
-Because Vite inlines `import.meta.env.VITE_*` variables at build time, this variable must be set **before** the build runs on Vercel — changing it requires a redeploy, not just a restart.
-
-## Backend (Node host)
-
-The backend has no platform-specific config file (no `render.yaml`, no `Procfile`) — it's a plain Node/Express app started with:
-
+## 4. Verify
 ```bash
-npm install
-npm start   # -> nodemon index.js
+curl https://<backend>/api/health            # {"status":"ok","database":"connected",...}
+curl https://<backend>/api/stocks/watchlist  # 50 stocks
 ```
+Then sign up, log in, place a buy, and check Orders/Holdings/Positions/Funds.
 
-For a production process manager, `node index.js` (without `nodemon`) or a process supervisor (PM2, the host's own restart-on-crash behavior) would typically replace `npm start` — this repo's `package.json` `start` script uses `nodemon`, which is normally a dev-time convenience for auto-restart on file changes rather than a production launcher. This is noted here as an observation, not changed, per the "no config changes" constraint of this task.
-
-**Required environment variables:**
-- `MONGO_URL` — MongoDB connection string
-- `JWT_SECRET` — secret used to sign/verify JWTs
-- `PORT` — optional, defaults to `3002` if unset
-
-**CORS:** the backend enables `cors()` with default (permissive) options — it does not restrict allowed origins to the deployed frontend domain specifically. This is standard for a project at this stage, but is worth tightening (`cors({ origin: "https://stocktrading-flame.vercel.app" })`) if this were hardened for a stricter production posture.
-
-## Database (MongoDB)
-
-Any MongoDB instance reachable from the backend host works — MongoDB Atlas's free tier is the typical choice for a project like this. The backend connects on server startup:
-
-```js
-app.listen(PORT, async () => {
-  await mongoose.connect(uri);
-});
-```
-
-Note: the server starts listening for HTTP requests **before** the MongoDB connection is confirmed — a request that hits a DB-backed route in the brief window before `mongoose.connect` resolves would fail. In practice this window is milliseconds and not user-visible in normal operation.
-
-## Local full-stack setup
-
+## Local full stack
 ```bash
-# Terminal 1 — backend
-cd backend
-npm install
-cp .env.example .env    # fill in MONGO_URL, JWT_SECRET
-npm start                 # http://localhost:3002
-
-# Terminal 2 — frontend
-cd frontend
-npm install
-cp .env.example .env    # VITE_API_BASE_URL=http://localhost:3002
-npm run dev                # http://localhost:5173
+# terminal 1
+cd backend && npm install && cp .env.example .env   # fill it in
+npm run dev                                          # http://localhost:3002
+# terminal 2
+cd frontend && npm install && npm run dev            # http://localhost:5173 (proxies the API)
 ```
 
-## Deployment checklist
-
-- [ ] `MONGO_URL` set on the backend host, pointing at a reachable MongoDB instance (whitelist the backend host's IP if using Atlas)
-- [ ] `JWT_SECRET` set on the backend host — a long, random value, not the placeholder from `.env.example`
-- [ ] `VITE_API_BASE_URL` set in Vercel (or wherever the frontend is built) to the backend's public URL, **before** triggering a build
-- [ ] Backend `PORT` matches what the host expects (many PaaS hosts inject their own `PORT` env var, which this app already respects via `process.env.PORT || 3002`)
-- [ ] CORS origin tightened if deploying beyond a demo/portfolio context
-
-Full variable reference: [`ENV_VARIABLES.md`](./ENV_VARIABLES.md).
+## Checklist
+- [ ] `MONGO_URL` includes the database name; Atlas allows the backend's IP
+- [ ] `JWT_SECRET` is long and random (never the example value)
+- [ ] `CORS_ORIGIN` = the real frontend URL
+- [ ] `VITE_API_BASE_URL` was set before the frontend build
+- [ ] Any credentials that were ever committed/shared have been rotated

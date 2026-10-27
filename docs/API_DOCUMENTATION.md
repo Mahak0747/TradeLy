@@ -1,5 +1,7 @@
 # API Documentation
 
+> **Note:** this document describes the original design. Market-data fetching, order execution and database access were reworked - see [CHANGES.md](./CHANGES.md) for what is different (batched/cached quotes, server-side pricing, atomic balance checks, tolerant `userId` matching).
+
 Base URL: `VITE_API_BASE_URL` (frontend env) → points at the deployed/local backend, e.g. `http://localhost:3002`.
 
 All endpoints return JSON. Endpoints marked 🔒 require an `Authorization: Bearer <JWT>` header (validated by `authMiddleware`).

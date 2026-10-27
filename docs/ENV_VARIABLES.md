@@ -1,51 +1,35 @@
 # Environment Variables
 
-TradeLy uses two separate `.env` files — one for the backend, one for the frontend. Both already have `.env.example` templates committed to the repo (no secrets in either); this document explains what each variable does. **No `.env` file itself is or should ever be committed** — both `backend/.gitignore` and `frontend/.gitignore` already exclude `.env`.
+Two separate `.env` files - backend and frontend. Both have a `.env.example` template. **Never commit a real `.env`** (both `.gitignore` files already exclude it).
 
-## Backend — `backend/.env` (from `backend/.env.example`)
+## Backend - `backend/.env`
 
-```env
-MONGO_URL=
-JWT_SECRET=
-```
+| Variable | Required | Description |
+|---|---|---|
+| `MONGO_URL` | **Yes** | MongoDB connection string. **Include the database name** (`...mongodb.net/<database>?...`). Without it MongoDB silently uses a database called `test` - a classic reason for "my data is in Atlas but the app shows nothing". |
+| `JWT_SECRET` | **Yes** | Signing key for login tokens. In production it must be at least 32 characters (the server refuses to start otherwise). Generate: `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`. Changing it logs everyone out. |
+| `NODE_ENV` | Recommended | Set `production` on the host (hides internal error details, enforces the secret length check). |
+| `CORS_ORIGIN` | Recommended | Comma-separated list of allowed browser origins, no trailing slash, e.g. `https://my-app.vercel.app,http://localhost:5173`. Empty = any origin is allowed (the server logs a warning in production). |
+| `PORT` | No | Defaults to `3002`. Most hosts inject their own - leave it alone there. |
+| `JWT_EXPIRES_IN` | No | Default `7d`. |
+| `DNS_SERVERS` | No | Default `1.1.1.1,8.8.8.8` (needed on some networks for `mongodb+srv://` lookups). Set `system` to use the OS resolver. |
+| `QUOTE_TTL_MS` | No | How long a Yahoo quote is cached. Default `30000`. |
+| `INDICES_TTL_MS` | No | Cache time for NIFTY/SENSEX. Default `15000`. |
+| `YAHOO_TIMEOUT_MS` | No | Give up on a Yahoo request after this long. Default `8000`. |
+| `TRADE_MAX_QUOTE_AGE_MS` | No | Orders are refused if the newest quote is older than this. Default `120000`. |
 
-| Variable | Required | Description | Example |
-|---|---|---|---|
-| `MONGO_URL` | Yes | MongoDB connection string. Read in `backend/index.js` and passed to `mongoose.connect(uri)`. | `mongodb+srv://user:pass@cluster.mongodb.net/tradely` |
-| `JWT_SECRET` | Yes | Secret key used to sign and verify JWTs (`jsonwebtoken`). Used in `routes/authRoutes.js` (sign) and `middleware/authMiddleware.js` (verify). Must be identical across restarts or existing tokens become invalid. | a long random string, e.g. generated with `openssl rand -hex 32` |
-| `PORT` | No | Port the Express server listens on. Not present in `.env.example` but read via `process.env.PORT`, defaulting to `3002` if unset — set this if your host requires a specific port. | `3002` |
+## Frontend - `frontend/.env`
 
-## Frontend — `frontend/.env` (from `frontend/.env.example`)
+| Variable | Required | Description |
+|---|---|---|
+| `VITE_API_BASE_URL` | **Production only** | Public URL of the backend, no trailing slash. Inlined **at build time** - change it, then rebuild/redeploy. **Not needed locally**: `npm run dev` proxies API calls to `http://localhost:3002`. |
+| `VITE_DEV_API_TARGET` | No | Dev only: where the Vite dev server forwards API calls. Default `http://localhost:3002`. |
 
-```env
-VITE_API_BASE_URL=
-```
+If `VITE_API_BASE_URL` is missing in a production build, the app calls its own origin, gets `index.html` back, and now reports *"The API returned a web page instead of data. Check VITE_API_BASE_URL"* instead of crashing.
 
-| Variable | Required | Description | Example |
-|---|---|---|---|
-| `VITE_API_BASE_URL` | Yes | Base URL the frontend's Axios instance (`src/api.js`) prefixes onto every API call. Must point at the running backend. Vite only exposes variables prefixed `VITE_` to client code, and inlines them **at build time** — changing this in production requires a rebuild, not just a restart. | `http://localhost:3002` (dev) or `https://your-backend-host.onrender.com` (prod) |
-
-## Setting them up locally
+## Quick setup
 
 ```bash
-# backend
-cd backend
-cp .env.example .env
-# then edit .env and fill in MONGO_URL and JWT_SECRET
-
-# frontend
-cd frontend
-cp .env.example .env
-# then edit .env and set VITE_API_BASE_URL to the backend's URL
+cd backend  && cp .env.example .env   # fill MONGO_URL (with db name) + JWT_SECRET
+cd frontend && cp .env.example .env   # optional for local dev
 ```
-
-## Setting them up in deployment
-
-- **Vercel (frontend):** set `VITE_API_BASE_URL` under Project Settings → Environment Variables, then trigger a build/redeploy.
-- **Backend host:** set `MONGO_URL` and `JWT_SECRET` (and optionally `PORT`) under that host's environment/secrets configuration UI — never commit them to source control.
-
-## Security notes
-
-- Rotating `JWT_SECRET` invalidates every currently-issued token — all users will be logged out and need to log in again.
-- `MONGO_URL` typically embeds database credentials — treat it as a secret with the same care as a password.
-- Neither `.env` file is tracked by git in this repository (see `.gitignore` in both `backend/` and `frontend/`); only the `.env.example` templates (with empty values) are committed.

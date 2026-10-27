@@ -1,324 +1,62 @@
-require("dotenv").config();
-
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const cors = require("cors");
 const dns = require("dns");
+const mongoose = require("mongoose");
 
-dns.setServers(["1.1.1.1", "8.8.8.8"]);
+const { config, assertConfig } = require("./config/env");
+const { createApp } = require("./app");
+const { getMarketData } = require("./services/yahooService");
 
-const {
-    fetchQuote,
-    fetchIndices
-} = require("./services/yahooService");
+// Atlas "mongodb+srv://" URLs need SRV lookups; some ISPs/routers break them, so the original forced
+// public resolvers. Still the default - set DNS_SERVERS=system to use the OS resolver instead.
+if (config.dnsServers && config.dnsServers !== "system") {
+  dns.setServers(config.dnsServers.split(",").map((s) => s.trim()).filter(Boolean));
+}
 
-
-const app = express();
-
-const PORT = process.env.PORT || 3002;
-const uri = process.env.MONGO_URL;
-
-
-//middleware
-
-app.use(cors());
-app.use(bodyParser.json());
-
-
-//routes
-
-const authRoutes = require("./routes/authRoutes");
-const stockRoutes = require("./routes/stockRoutes");
-
-app.use("/api/auth", authRoutes);
-app.use("/api/stocks", stockRoutes);
-
-
-//authentication
-
-const authMiddleware = require("./middleware/authMiddleware");
-
-//models
-
-const { HoldingsModel } = require("./model/HoldingsModel");
-const { OrdersModel } = require("./model/OrdersModel");
-const { PositionsModel } = require("./model/PositionsModel");
-const { FundsModel } = require("./model/FundsModel");
-
-
-//market indices
-
-app.get("/marketIndices", async (req, res) => {
+async function connectWithRetry() {
+  for (let attempt = 1; ; attempt++) {
     try {
-        const indices = await fetchIndices();
-
-        res.json(indices);
-
+      await mongoose.connect(config.mongoUrl, { serverSelectionTimeoutMS: 10_000, maxPoolSize: 10 });
+      const { host, name } = mongoose.connection;
+      console.log(`MongoDB connected (host: ${host}, database: "${name}")`);
+      return;
     } catch (err) {
-        console.log("MARKET INDICES ERROR:", err.message);
-
-        res.status(500).json({
-            error: err.message
-        });
+      const wait = Math.min(30_000, 2_000 * attempt);
+      console.error(
+        `MongoDB connection failed (attempt ${attempt}): ${err.message}\n` +
+          `  -> check MONGO_URL, and (Atlas) Network Access must allow this server's IP. Retrying in ${wait / 1000}s...`
+      );
+      await new Promise((r) => setTimeout(r, wait));
     }
-});
-
-
-//get orders
-
-app.get("/orders", authMiddleware, async (req, res) => {
-    try {
-        const orders = await OrdersModel.find({userId: req.user.id}).sort({ createdAt: -1 });
-        res.json(orders);
-    } 
-    catch (err) {
-        console.log(err);
-        res.status(500).json({error: err.message});
-    }
-});
-
-
-//get funds
-
-app.get("/funds", authMiddleware, async (req, res) => {
-    try {
-        let fund = await FundsModel.findOne({userId: req.user.id});
-        if (!fund) {
-            fund = await FundsModel.create({
-                userId: req.user.id,
-                availableMargin: 100000,
-                usedMargin: 0,
-                availableCash: 100000,
-                openingBalance: 100000,
-                payin: 0
-            });
-        }
-        res.json(fund);
-    } 
-    catch (err) {
-        console.log(err);
-        res.status(500).json({error: err.message});
-    }
-});
- 
-
-//get holdings from live prices
-
-app.get("/allHoldings", authMiddleware, async (req, res) => {
-    try {
-        const holdings = await HoldingsModel.find({userId: req.user.id});
-        const updated = await Promise.all(
-            holdings.map(async (stock) => {
-                try {
-                    const quote = await fetchQuote(`${stock.name}.NS`);
-                    const price = quote.regularMarketPrice || stock.price || 0;
-                    const curValue = price * stock.qty;
-                    const profit = curValue - stock.avg * stock.qty;
-                    return {
-                        name: stock.name,
-                        qty: stock.qty,
-                        avg: stock.avg,
-                        price,
-                        curValue,
-                        profit,
-                        net: `${(quote.regularMarketChangePercent || 0).toFixed(2)}%`,
-                        day: `${quote.regularMarketChangePercent >= 0 ? "+" : ""}${(quote.regularMarketChangePercent || 0).toFixed(2)}%`
-                    };
-                } 
-                catch {
-                    return {
-                        name: stock.name,
-                        qty: stock.qty,
-                        avg: stock.avg,
-                        price: stock.price || 0,
-                        curValue: (stock.price || 0) * stock.qty,
-                        profit: ((stock.price || 0) - stock.avg) * stock.qty,
-                        net: "0%",
-                        day: "0%"
-                    };
-                }
-            })
-        );
-        res.json(updated);
-    } 
-    catch (err) {
-        res.status(500).json({error: err.message});
-    }
-});
- 
-
-//get positions
-
-app.get("/allPositions", authMiddleware, async (req, res) => {
-    try {
-        const positions = await PositionsModel.find({userId: req.user.id});
-        const updated = await Promise.all(
-            positions.map(async (stock) => {
-                try {
-                    const quote = await fetchQuote(`${stock.name}.NS`);
-                    const price = quote.regularMarketPrice || stock.price;
-                    return {
-                        ...stock.toObject(),
-                        price,
-                        net: `${(quote.regularMarketChangePercent || 0).toFixed(2)}%`,
-                        day: `${quote.regularMarketChangePercent >= 0 ? "+" : ""}${(quote.regularMarketChangePercent || 0).toFixed(2)}%`,
-                        isLoss: price < stock.avg
-                    };
-                } 
-                catch {
-                    return stock;
-                }
-            })
-        );
-        res.json(updated);
-    } 
-    catch (err) {
-        res.status(500).json({error: err.message});
-    }
-});
- 
-
-//place new orders
-
-app.post("/newOrder", authMiddleware, async (req, res) => {
-  try {
-    const { name, qty, price, mode } = req.body;
-    if (!name || !mode) { return res.status(400).json({message: "Invalid request"});}
-    if (qty <= 0) {return res.status(400).json({message: "Quantity must be greater than 0"});}
-    if (price <= 0) {return res.status(400).json({message: "Price must be greater than 0"});}
-
-    const userId = req.user.id;
-    if (!name || !qty || !price || !mode) {
-      return res.status(400).json({message: "Missing required fields",});
-    }
-
-    let fund = await FundsModel.findOne({ userId });
-    if (!fund) {
-      fund = await FundsModel.create({
-        userId,
-        availableMargin: 100000,
-        availableCash: 100000,
-        openingBalance: 100000,
-        usedMargin: 0,
-        payin: 0,
-      });
-    }
-    if (mode === "BUY") {
-      const cost = qty * price;
-      if (fund.availableCash < cost) {
-        return res.status(400).json({message: "Insufficient Balance",});
-      }
-      fund.availableCash -= cost;
-      fund.availableMargin -= cost;
-      fund.usedMargin += cost;
-      await fund.save();
-
-      let holding = await HoldingsModel.findOne({ userId, name });
-
-      if (holding) {
-        const totalQty = holding.qty + qty;
-        holding.avg =(holding.avg * holding.qty + price * qty) / totalQty;
-        holding.qty = totalQty;
-        holding.price = price;
-        await holding.save();
-      } 
-      else {
-        await HoldingsModel.create({
-          userId,
-          name,
-          qty,
-          avg: price,
-          price,
-          net: "0%",
-          day: "0%",
-        });
-      }
-      let position = await PositionsModel.findOne({userId,name,});
-
-      if (position) {
-        position.qty += qty;
-        position.price = price;
-        await position.save();
-      } 
-      else {
-        await PositionsModel.create({
-          userId,
-          product: "CNC",
-          name,
-          qty,
-          avg: price,
-          price,
-          net: "0%",
-          day: "0%",
-          isLoss: false,
-        });
-      }
-    }
-
-    if (mode === "SELL") {
-      const holding = await HoldingsModel.findOne({userId,name,});
-      if (!holding) {
-        return res.status(400).json({message: "No Holdings Found",});
-      }
-
-      if (holding.qty < qty) {
-        return res.status(400).json({message: "Not enough quantity",});
-      }
-
-      holding.qty -= qty;
-      if (holding.qty === 0) {
-        await HoldingsModel.deleteOne({_id: holding._id,});
-      } 
-      else {
-        await holding.save();
-      }
-
-      const position = await PositionsModel.findOne({userId,name,});
-
-      if (position) {
-        position.qty -= qty;
-        if (position.qty <= 0) {
-          await PositionsModel.deleteOne({_id: position._id,});
-        } 
-        else {
-          await position.save();
-        }
-      }
-
-      const amount = qty * price;
-      fund.availableCash += amount;
-      fund.availableMargin += amount;
-      fund.usedMargin = Math.max(0,fund.usedMargin - amount);
-      await fund.save();
-    }
-    await OrdersModel.create({
-      userId,
-      name,
-      qty,
-      price,
-      mode,
-      status: "COMPLETED",
-    });
-
-    res.json({success: true,message: "Order Placed Successfully",});
-  } 
-  catch (err) {
-    console.log(err);
-    res.status(500).json({error: err.message,});
   }
-});
+}
 
+async function main() {
+  assertConfig();
+  if (config.isProd && config.corsOrigins.length === 0) {
+    console.warn("WARNING: CORS_ORIGIN is not set - any website can call this API from a browser. Set it to your frontend URL.");
+  }
 
-//start server
+  const app = createApp();
+  // Listen first so the host's port check passes; DB routes answer 503 until MongoDB is connected.
+  const server = app.listen(config.port, () => console.log(`Server running on port ${config.port}`));
 
-app.listen(PORT, async () => {
-    console.log(`Server running on port ${PORT}`);
-    try {
-        await mongoose.connect(uri);
-        console.log("MongoDB Connected");
-    } 
-    catch (err) {
-        console.log("MongoDB Connection Error:",err.message);
-    }
+  getMarketData().warmUp(); // independent of the DB: pre-fill the quote cache while MongoDB connects
+  connectWithRetry();
+
+  const shutdown = (signal) => {
+    console.log(`${signal} received, shutting down...`);
+    server.close(async () => {
+      await mongoose.disconnect().catch(() => {});
+      process.exit(0);
+    });
+    setTimeout(() => process.exit(1), 10_000).unref();
+  };
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
+  process.on("SIGINT", () => shutdown("SIGINT"));
+}
+
+process.on("unhandledRejection", (err) => console.error("Unhandled rejection:", err));
+
+main().catch((err) => {
+  console.error(err.message);
+  process.exit(1);
 });

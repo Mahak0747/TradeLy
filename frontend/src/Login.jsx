@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import api from "./api";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import api, { errorMessage } from "./api";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
 
   const [form, setForm] = useState({
     email: "",
@@ -11,6 +12,7 @@ const Login = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(params.get("expired") ? "Your session expired. Please log in again." : "");
 
   const handleChange = (e) => {
     setForm({
@@ -21,6 +23,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
     try {
       const res = await api.post("/api/auth/login", form);
 
@@ -30,22 +33,22 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(res.data.user));
       }
 
-      alert("Login Successful");
-
-      window.location.href = "/dashboard";
-    } 
-    catch (err) {
-      alert(
-        err.response?.data?.message || err.response?.data?.error || "Login Failed"
-      );
+      navigate("/dashboard", { replace: true });
+    } catch (err) {
+      setError(errorMessage(err));
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
     <div
       style={{ width: "400px", margin: "60px auto", padding: "30px", boxShadow: "0 0 10px rgba(0,0,0,0.2)", borderRadius: "10px",}}>
       <h2 style={{ textAlign: "center" }}>Login</h2>
+      {error && (
+        <p role="alert" style={{ color: "#e4483b", textAlign: "center", marginBottom: "15px" }}>
+          {error}
+        </p>
+      )}
       <form onSubmit={handleSubmit}>
         <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required style={{ width: "100%", padding: "10px", marginBottom: "15px", }}/>
         <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required style={{ width: "100%", padding: "10px", marginBottom: "20px", }} />

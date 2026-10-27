@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
@@ -19,7 +19,10 @@ import Footer from "./landing_page/Footer";
 
 import ProtectedRoute from "./landing_page/ProtectedRoute";
 
-import DashboardHome from "./dashboard/Home";
+import ErrorBoundary from "./components/ErrorBoundary";
+
+// The dashboard (MUI, chart.js) is only downloaded after login, keeping the landing pages light
+const DashboardHome = lazy(() => import("./dashboard/Home"));
 
 const App = () => {
   const location = useLocation();
@@ -45,7 +48,11 @@ const App = () => {
           path="/dashboard/*"
           element={
             <ProtectedRoute>
-              <DashboardHome />
+              <ErrorBoundary>
+                <Suspense fallback={<div style={{ padding: 40, textAlign: "center" }}>Loading dashboard…</div>}>
+                  <DashboardHome />
+                </Suspense>
+              </ErrorBoundary>
             </ProtectedRoute>
           }
         />

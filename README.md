@@ -178,8 +178,8 @@ TradeLy/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+
-- A MongoDB connection string (local or MongoDB Atlas)
+- Node.js 20+
+- A MongoDB connection string (local or MongoDB Atlas) - **include the database name**
 
 ### 1. Clone
 
@@ -193,24 +193,33 @@ cd TradeLy
 ```bash
 cd backend
 npm install
-cp .env.example .env     # fill in MONGO_URL and JWT_SECRET
-npm start                # runs `nodemon index.js`
+cp .env.example .env     # fill in MONGO_URL (with db name) and JWT_SECRET
+npm run dev              # http://localhost:3002  (use `npm start` in production)
 ```
-
-Backend runs on `http://localhost:3002` by default (override with `PORT`).
 
 ### 3. Frontend
 
 ```bash
 cd frontend
 npm install
-cp .env.example .env     # set VITE_API_BASE_URL to the backend URL above
-npm run dev
+npm run dev              # http://localhost:5173 - API calls are proxied to the backend, no .env needed locally
 ```
 
-Frontend runs on Vite's default dev port (`http://localhost:5173`).
+Production builds need `VITE_API_BASE_URL` (see [`docs/ENV_VARIABLES.md`](./docs/ENV_VARIABLES.md)).
 
-Full variable-by-variable documentation: [`docs/ENV_VARIABLES.md`](./docs/ENV_VARIABLES.md).
+### Testing
+
+```bash
+cd backend
+npm test                                              # market-data unit tests (no database needed)
+TEST_MONGO_URL=mongodb://127.0.0.1:27017 npm test     # + API/trading integration tests (uses a throw-away DB)
+npm run diagnose -- --email you@example.com           # read-only check of your real data
+cd ../frontend && npm run build
+```
+
+> The two concurrency tests rely on MongoDB's atomic single-document updates - run them against a real MongoDB/Atlas test database.
+
+Problems? See [`docs/TROUBLESHOOTING.md`](./docs/TROUBLESHOOTING.md). What changed and why: [`docs/CHANGES.md`](./docs/CHANGES.md).
 
 ---
 
@@ -227,7 +236,9 @@ Full variable-by-variable documentation: [`docs/ENV_VARIABLES.md`](./docs/ENV_VA
 | [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md) | How the app is deployed (Vercel frontend, Node backend) |
 | [`docs/TECHNICAL_DECISIONS.md`](./docs/TECHNICAL_DECISIONS.md) | Key design decisions and trade-offs |
 | [`docs/CHALLENGES_AND_SOLUTIONS.md`](./docs/CHALLENGES_AND_SOLUTIONS.md) | Real problems hit during development and how they were solved |
-| [`docs/ENV_VARIABLES.md`](./docs/ENV_VARIABLES.md) | Every environment variable, what it's for, example values |    
+| [`docs/ENV_VARIABLES.md`](./docs/ENV_VARIABLES.md) | Every environment variable, what it's for, example values |
+| [`docs/TROUBLESHOOTING.md`](./docs/TROUBLESHOOTING.md) | Empty dashboard, stocks not loading, CORS, cold starts |
+| [`docs/CHANGES.md`](./docs/CHANGES.md) | Debugging report: root causes, fixes, behaviour changes |    
 
 ---
 

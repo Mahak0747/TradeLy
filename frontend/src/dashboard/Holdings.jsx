@@ -1,135 +1,102 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import { VerticalGraph } from "./VerticalGraph";
-import api from "../api";
+import useApiData from "../hooks/useApiData";
+import { Loading, ErrorNotice, StaleNote } from "../components/Status";
+import { money, toNum } from "../utils/format";
 
+const EMPTY = [];
 
 const Holdings = () => {
+  const { data, error, loading, stale, refresh } = useApiData("/allHoldings", { interval: 30000 });
+  const allHoldings = Array.isArray(data) ? data : EMPTY;
 
-    const [allHoldings, setAllHoldings] = useState([]);
+  const chartData = useMemo(
+    () => ({
+      labels: allHoldings.map((s) => s.name),
+      datasets: [{ label: "Stock Price", data: allHoldings.map((s) => toNum(s.price)), backgroundColor: "rgba(37, 99, 235, 0.75)" }],
+    }),
+    [allHoldings]
+  );
 
-    useEffect(() => {
-        const fetchHoldings = async () => {
-            try {
-                const res = await api.get("/allHoldings");
-                console.log("HOLDINGS DATA", res.data);
-                setAllHoldings(res.data);
-            } 
-            catch (err) {
-                console.log("Holding API Error", err);
-            }
-        };
-        fetchHoldings();
-    }, []);
+  const totals = useMemo(() => {
+    const totalInvestment = allHoldings.reduce((t, s) => t + toNum(s.avg) * toNum(s.qty), 0);
+    const currentValue = allHoldings.reduce((t, s) => t + toNum(s.price) * toNum(s.qty), 0);
+    const totalProfit = currentValue - totalInvestment;
+    return { totalInvestment, currentValue, totalProfit, profitPercent: totalInvestment ? ((totalProfit / totalInvestment) * 100).toFixed(2) : "0.00" };
+  }, [allHoldings]);
 
-    const labels =allHoldings.map((stock) => stock.name);
+  return (
+    <>
+      <h3 className="title">Holdings ({allHoldings.length})</h3>
+      <StaleNote show={stale} />
+      {loading && !data && <Loading label="Loading holdings…" />}
+      {error && !data && <ErrorNotice message={`Could not load holdings: ${error}`} onRetry={refresh} />}
 
-    const data = {
-        labels,
-        datasets: [
-            {
-                label: "Stock Price",
-                data: allHoldings.map((stock) => stock.price),
-                backgroundColor: "rgba(37, 99, 235, 0.75)",
-            }
-        ]
-    };
-
-    const totalInvestment =
-        allHoldings.reduce(
-            (total, stock) => total + (stock.avg * stock.qty), 0
-        );
-
-    const currentValue =
-        allHoldings.reduce(
-            (total, stock) => total + (stock.price * stock.qty), 0
-        );
-
-    const totalProfit =
-        allHoldings.reduce(
-            (total, stock) => total + ((stock.price - stock.avg) * stock.qty), 0
-        );
-
-    const profitPercent = totalInvestment ? ((totalProfit / totalInvestment)*100).toFixed(2) : 0;
-
-    return (
+      {data && (
         <>
-            <h3 className="title">
-                Holdings ({allHoldings.length})
-            </h3>
-
-            <div className="order-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Instrument</th>
-                            <th>Qty.</th>
-                            <th>Avg. cost</th>
-                            <th>LTP</th>
-                            <th>Cur. val</th>
-                            <th>P&L</th>
-                            <th>Net chg.</th>
-                            <th>Day chg.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            allHoldings.map((stock, index) => {
-                                const profitClass = stock.profit >= 0 ? "profit" : "loss";
-                                const dayClass = stock.day.startsWith("-") ? "loss" : "profit";
-                                return (
-                                    <tr key={index}>
-                                        <td>
-                                            {stock.name}
-                                        </td>
-                                        <td>
-                                            {stock.qty}
-                                        </td>
-                                        <td>
-                                            {stock.avg.toFixed(2)}
-                                        </td>
-                                        <td>
-                                            {stock.price.toFixed(2)}
-                                        </td>
-                                        <td>
-                                            {stock.curValue.toFixed(2)}
-                                        </td>
-                                        <td className={profitClass}>
-                                            {stock.profit.toFixed(2)}
-                                        </td>
-                                        <td className={profitClass}>
-                                            {stock.net}
-                                        </td>
-                                        <td className={dayClass}>
-                                            {stock.day}
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
+          <div className="order-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Instrument</th>
+                  <th>Qty.</th>
+                  <th>Avg. cost</th>
+                  <th>LTP</th>
+                  <th>Cur. val</th>
+                  <th>P&L</th>
+                  <th>Net chg.</th>
+                  <th>Day chg.</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allHoldings.length === 0 && (
+                  <tr>
+                    <td colSpan={8}>No holdings yet. Buy a stock from the watchlist to get started.</td>
+                  </tr>
+                )}
+                {allHoldings.map((s) => (
+                  <tr key={s._id || s.name}>
+                    <td>{s.name}</td>
+                    <td>{s.qty}</td>
+                    <td>{money(s.avg)}</td>
+                    <td title={s.priceSource === "stored" ? "Live price unavailable - showing the last saved price" : undefined}>
+                      {money(s.price)}
+                      {s.priceSource === "stored" ? "*" : ""}
+                    </td>
+                    <td>{money(s.curValue)}</td>
+                    <td className={toNum(s.profit) >= 0 ? "profit" : "loss"}>{money(s.profit)}</td>
+                    <td className={toNum(s.profit) >= 0 ? "profit" : "loss"}>{s.net}</td>
+                    <td className={String(s.day).startsWith("-") ? "loss" : "profit"}>{s.day}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="row">
+            <div className="col">
+              <h5>{money(totals.totalInvestment)}</h5>
+              <p>Total investment</p>
             </div>
-            <div className="row">
-                <div className="col">
-                    <h5> {totalInvestment.toFixed(2)} </h5>
-                    <p>Total investment</p>
-                </div>
-                <div className="col">
-                    <h5> {currentValue.toFixed(2)} </h5>
-                    <p> Current value </p>
-                </div>
-                <div className="col">
-                    <h5>
-                        {totalProfit.toFixed(2)} ( {profitPercent}% )
-                    </h5>
-                    <p>P&L</p>
-                </div>
+            <div className="col">
+              <h5>{money(totals.currentValue)}</h5>
+              <p>Current value</p>
             </div>
+            <div className="col">
+              <h5>
+                {money(totals.totalProfit)} ( {totals.profitPercent}% )
+              </h5>
+              <p>P&L</p>
+            </div>
+          </div>
+          {allHoldings.length > 0 && (
             <div className="chart-panel">
-                <VerticalGraph data={data} />
+              <VerticalGraph data={chartData} />
             </div>
+          )}
         </>
-    );
+      )}
+    </>
+  );
 };
 
 export default Holdings;

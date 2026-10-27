@@ -1223,3 +1223,36 @@
     font-size: 1.3rem;
   }
 }
+
+/* ---- loading / error / stale states ---- */
+.dashboard-scope .status-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px 16px;
+  color: var(--db-text-secondary);
+  font-size: 0.85rem;
+  text-align: center;
+}
+.dashboard-scope .status-error { flex-direction: column; color: var(--db-danger); }
+.dashboard-scope .spinner {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid var(--db-border-strong); border-top-color: var(--db-primary);
+  animation: db-spin 0.8s linear infinite;
+}
+@keyframes db-spin { to { transform: rotate(360deg); } }
+.dashboard-scope .stale-note {
+  background: var(--db-primary-light); color: var(--db-text-secondary);
+  font-size: 0.75rem; padding: 6px 12px; border-radius: var(--db-radius); margin: 0 0 10px;
+}
+.dashboard-scope .form-error { color: var(--db-danger); font-size: 0.78rem; margin: 8px 0 0; }
+.dashboard-scope button.btn { font-family: inherit; line-height: normal; background-clip: padding-box; }
+.dashboard-scope button.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.dashboard-scope .toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 3000;
+  background: #262626; color: #fff; padding: 10px 18px; border-radius: var(--db-radius);
+  font-size: 0.85rem; box-shadow: 0 6px 20px rgba(0,0,0,.25);
+}
+.dashboard-scope .toast.toast-error { background: var(--db-danger); }
+.dashboard-scope .buttons .btn + .btn { margin-left: 8px; }

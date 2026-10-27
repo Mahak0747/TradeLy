@@ -1,38 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-import { Link } from "react-router-dom";
-import {
-  SpaceDashboardOutlined,
-  ReceiptLongOutlined,
-  AccountBalanceWalletOutlined,
-  SsidChartOutlined,
-  PaymentsOutlined,
-  ExpandMore,
-} from "@mui/icons-material";
+import { Link, useLocation } from "react-router-dom";
+import SpaceDashboardOutlined from "@mui/icons-material/SpaceDashboardOutlined";
+import ReceiptLongOutlined from "@mui/icons-material/ReceiptLongOutlined";
+import AccountBalanceWalletOutlined from "@mui/icons-material/AccountBalanceWalletOutlined";
+import SsidChartOutlined from "@mui/icons-material/SsidChartOutlined";
+import PaymentsOutlined from "@mui/icons-material/PaymentsOutlined";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import { clearSession } from "../api";
+import { safeJson } from "../utils/format";
+
+const MENU_PATHS = ["/dashboard", "/dashboard/orders", "/dashboard/holdings", "/dashboard/positions", "/dashboard/funds"];
 
 const Menu = () => {
-  const [selectedMenu, setSelectedMenu] = useState(0);
+  const { pathname } = useLocation();
+  // derived from the URL, so the highlight is right after a refresh / deep link too
+  const selectedMenu = Math.max(0, MENU_PATHS.indexOf(pathname.replace(/\/$/, "")));
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-  const [username, setUsername] = useState("User");
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
+  const username = safeJson("user")?.username || "User";
 
-    if (user) {
-      setUsername(user.username);
-    }
-  }, []);
-
-  const handleMenuClick = (index) => {
-    setSelectedMenu(index);
-  };
-
-  const handleProfileClick = (index) => {
+  const handleProfileClick = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    clearSession();
     window.location.href = "/login";
   };
 
@@ -47,7 +39,7 @@ const Menu = () => {
       <div className="menus">
         <ul>
           <li>
-            <Link style={{ textDecoration: "none" }} to="/dashboard" onClick={() => handleMenuClick(0)}>
+            <Link style={{ textDecoration: "none" }} to="/dashboard">
               <p className={selectedMenu === 0 ? activeMenuClass : menuClass}>
                 <SpaceDashboardOutlined className="nav-icon" fontSize="small" />
                 Dashboard
@@ -55,7 +47,7 @@ const Menu = () => {
             </Link>
           </li>
           <li>
-            <Link style={{ textDecoration: "none" }} to="/dashboard/orders" onClick={() => handleMenuClick(1)}>
+            <Link style={{ textDecoration: "none" }} to="/dashboard/orders">
               <p className={selectedMenu === 1 ? activeMenuClass : menuClass}>
                 <ReceiptLongOutlined className="nav-icon" fontSize="small" />
                 Orders
@@ -63,7 +55,7 @@ const Menu = () => {
             </Link>
           </li>
           <li>
-            <Link style={{ textDecoration: "none" }} to="/dashboard/holdings" onClick={() => handleMenuClick(2)}>
+            <Link style={{ textDecoration: "none" }} to="/dashboard/holdings">
               <p className={selectedMenu === 2 ? activeMenuClass : menuClass}>
                 <AccountBalanceWalletOutlined className="nav-icon" fontSize="small" />
                 Holdings
@@ -71,7 +63,7 @@ const Menu = () => {
             </Link>
           </li>
           <li>
-            <Link style={{ textDecoration: "none" }} to="/dashboard/positions" onClick={() => handleMenuClick(3)}>
+            <Link style={{ textDecoration: "none" }} to="/dashboard/positions">
               <p className={selectedMenu === 3 ? activeMenuClass : menuClass}>
                 <SsidChartOutlined className="nav-icon" fontSize="small" />
                 Positions
@@ -79,7 +71,7 @@ const Menu = () => {
             </Link>
           </li>
           <li>
-            <Link style={{ textDecoration: "none" }} to="/dashboard/funds" onClick={() => handleMenuClick(4)}>
+            <Link style={{ textDecoration: "none" }} to="/dashboard/funds">
               <p className={selectedMenu === 4 ? activeMenuClass : menuClass}>
                 <PaymentsOutlined className="nav-icon" fontSize="small" />
                 Funds

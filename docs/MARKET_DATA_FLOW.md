@@ -1,5 +1,7 @@
 # Market Data Flow
 
+> **Note:** this document describes the original design. Market-data fetching, order execution and database access were reworked - see [CHANGES.md](./CHANGES.md) for what is different (batched/cached quotes, server-side pricing, atomic balance checks, tolerant `userId` matching).
+
 TradeLy's only source of price data is Yahoo Finance, accessed through the `yahoo-finance2` npm package inside `backend/services/yahooService.js`. There is no WebSocket/streaming layer — the frontend polls REST endpoints on a timer.
 
 ## Where market data is used

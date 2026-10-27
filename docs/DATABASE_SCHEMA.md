@@ -1,5 +1,7 @@
 # Database Schema
 
+> **Note:** this document describes the original design. Market-data fetching, order execution and database access were reworked - see [CHANGES.md](./CHANGES.md) for what is different (batched/cached quotes, server-side pricing, atomic balance checks, tolerant `userId` matching).
+
 TradeLy uses MongoDB via Mongoose. There are 5 collections. Every collection except `User` carries a `userId` reference back to `User`, which is how per-user data isolation is enforced (every query in `index.js` filters by `req.user.id`).
 
 ## Entity relationship overview

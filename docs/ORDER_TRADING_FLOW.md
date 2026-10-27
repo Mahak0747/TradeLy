@@ -1,5 +1,7 @@
 # Order / Trading Flow
 
+> **Note:** this document describes the original design. Market-data fetching, order execution and database access were reworked - see [CHANGES.md](./CHANGES.md) for what is different (batched/cached quotes, server-side pricing, atomic balance checks, tolerant `userId` matching).
+
 This document walks through exactly what happens when a user places a BUY or a SELL order — the core business logic of TradeLy, all implemented in a single handler: `POST /newOrder` in `backend/index.js`.
 
 ## Entry points (frontend)

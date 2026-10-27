@@ -28,4 +28,6 @@ const PositionsSchema = new Schema({
     }
 });
 
+PositionsSchema.index({ userId: 1, name: 1 });
+
 module.exports = { PositionsSchema };

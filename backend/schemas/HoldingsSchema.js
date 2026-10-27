@@ -40,4 +40,7 @@ const HoldingsSchema = new Schema({
     
 });
 
+// Lookups by (user, instrument) on every buy/sell
+HoldingsSchema.index({ userId: 1, name: 1 });
+
 module.exports = { HoldingsSchema };
