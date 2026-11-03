@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api, { errorMessage } from "./api";
+import api from "./api";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -12,7 +12,6 @@ const Signup = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setForm({
@@ -25,16 +24,22 @@ const Signup = () => {
     e.preventDefault();
 
     setLoading(true);
-    setError("");
 
     try {
-      await api.post("/api/auth/signup", form);
+      const res = await api.post("/api/auth/signup", form);
 
-      navigate("/login", { state: { registered: true } });
+      alert(res.data.message || "Signup Successful");
+
+      navigate("/login");
     } catch (err) {
-      setError(errorMessage(err));
-      setLoading(false);
+      alert(
+        err.response?.data?.message ||
+          err.response?.data?.error ||
+          "Signup Failed"
+      );
     }
+
+    setLoading(false);
   };
 
   return (
@@ -49,11 +54,6 @@ const Signup = () => {
     >
       <h2 style={{ textAlign: "center" }}>Create Account</h2>
 
-      {error && (
-        <p role="alert" style={{ color: "#e4483b", textAlign: "center", marginBottom: "15px" }}>
-          {error}
-        </p>
-      )}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -86,7 +86,7 @@ const Signup = () => {
         <input
           type="password"
           name="password"
-          placeholder="Password (min. 8 characters)" minLength={8}
+          placeholder="Password"
           value={form.password}
           onChange={handleChange}
           required

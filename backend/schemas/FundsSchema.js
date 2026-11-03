@@ -29,7 +29,6 @@ const FundsSchema = new Schema({
 
     userId: {
         type: Schema.Types.ObjectId,
-        index: true,
         ref: "User",
         required: true
     }

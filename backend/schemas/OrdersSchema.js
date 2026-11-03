@@ -40,7 +40,4 @@ const OrdersSchema = new Schema({
     }
 });
 
-// Orders page: "my orders, newest first"
-OrdersSchema.index({ userId: 1, createdAt: -1 });
-
 module.exports = { OrdersSchema };
